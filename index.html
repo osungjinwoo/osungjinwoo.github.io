@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sung Jin-Woo | O Monarca das Sombras</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary-color: #000000;
+            --secondary-color: #ffffff;
+            --accent-color: #ff3e78;
+            --dark-color: #0a0a0a;
+            --light-color: #f5f5f5;
+            --text-color: #e0e0e0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: #000000;
+            color: var(--text-color);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header & Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--light-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span {
+            color: var(--accent-color);
+            margin-right: 5px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: var(--light-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 8px 20px;
+            border-radius: 5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #ff3e78, #ff2d6d);
+            color: white;
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 62, 120, 0.4);
+        }
+        
+        /* Hero Section */
+        .hero {
+            display: flex;
+            min-height: 100vh;
+            padding-top: 120px;
+            position: relative;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 0;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top right, rgba(128, 0, 255, 0.15), transparent 70%);
+            z-index: -1;
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            left: -50px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(76, 0, 153, 0.2), transparent 70%);
+            z-index: -1;
+            border-radius: 50%;
+        }
+        
+        .hero-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-text {
+            flex: 1 1 auto;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .hero-text h1 {
+            font-size: 64px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, #a0a0a0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            line-height: 1.1;
+        }
+        
+        .hero-text h2 {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+        
+        .hero-text p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #a0a0a0;
+            margin-bottom: 30px;
+            max-width: 500px;
+        }
+        
+        .hero-image {
+            flex: 0 0 auto;
+            position: relative;
+            animation: floatImage 6s ease-in-out infinite;
+        }
+        
+        @keyframes floatImage {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        .profile-image {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent-color);
+            box-shadow: 0 0 20px rgba(0, 128, 255, 0.5);
+            transition: all 0.5s ease;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .profile-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 62, 120, 0.7);
+            border-color: #ff3e78;
+        }
+        
+        .hero-image::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(128, 0, 255, 0.7) 0%, rgba(76, 0, 153, 0.5) 100%);
+            filter: blur(70px);
+            opacity: 0.15;
+            z-index: 1;
+            border-radius: 50%;
+            animation: pulse 4s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.15; }
+            50% { transform: scale(1.1); opacity: 0.2; }
+        }
+        
+        .about-section {
+            width: 100%;
+            max-width: 1000px;
+            margin: 50px auto 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 10;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.8s ease-out forwards;
+            animation-delay: 0.5s;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .about-section h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .about-section h2::before {
+            content: '';
+            display: block;
+            width: 30px;
+            height: 3px;
+            background: var(--accent-color);
+        }
+        
+        .about-items-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        .about-item {
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            flex: 1;
+            min-width: 200px;
+            max-width: 220px;
+        }
+        
+        .about-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 3px solid var(--accent-color);
+            transform: translateY(-5px);
+        }
+        
+        .about-item b {
+            font-size: 18px;
+            color: var(--secondary-color);
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .about-item a {
+            font-size: 14px;
+            color: var(--accent-color);
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .about-item p {
+            font-size: 15px;
+            color: #a0a0a0;
+            margin-bottom: 5px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #ff3e78, #ff2d6d);
+            color: white;
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 62, 120, 0.4);
+        }
+        
+        /* Footer */
+        footer {
+            background: rgba(10, 10, 10, 0.8);
+            padding: 60px 0 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+        }
+        
+        .footer-logo {
+            grid-column: span 1;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .footer-social a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary-color);
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-social a:hover {
+            background: var(--accent-color);
+            transform: translateY(-3px);
+        }
+        
+        .footer-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column li {
+            margin-bottom: 15px;
+        }
+        
+        .footer-column a {
+            color: #a0a0a0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .footer-column a i {
+            color: var(--accent-color);
+        }
+        
+        .footer-column a:hover {
+            color: var(--accent-color);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: #777;
+            font-size: 14px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .hero-content, .hero-image {
+                width: 100%;
+                max-width: 100%;
+            }
+            
+            .hero-description {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .about-section {
+                margin: 30px auto;
+            }
+            
+            .about-items-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .about-item {
+                max-width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 36px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .profile-image {
+                width: 200px;
+                height: 200px;
+                margin-bottom: 20px;
+            }
+            
+            .container {
+                padding: 0 20px;
+            }
+        }
+        
+        /* Estilo para seleção de texto */
+        ::selection {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        ::-moz-selection {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .particles-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .shadow-monarch-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .shadow-tentacle {
+            position: absolute;
+            background: linear-gradient(to right, rgba(76, 0, 153, 0.1), rgba(128, 0, 255, 0.3));
+            border-radius: 50%;
+            filter: blur(20px);
+            transform-origin: center;
+            opacity: 0;
+            animation: shadowMove 15s infinite ease-in-out;
+        }
+        
+        @keyframes shadowMove {
+            0% {
+                opacity: 0;
+                transform: scale(0.8) translate(0, 0) rotate(0deg);
+            }
+            20% {
+                opacity: 0.3;
+            }
+            80% {
+                opacity: 0.3;
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1.2) translate(100px, -50px) rotate(45deg);
+            }
+        }
+        
+        /* Gradiente de transição entre header e hero */
+        .header-transition {
+            position: absolute;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(to bottom, #000000, transparent);
+            z-index: 5;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo"></a>
+
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="links.html">Links</a>
+                    <a href="artigos.html">Artigos</a>
+                    <a href="treinamento.html">Treinamento</a>
+                </div>
+                <div class="auth-buttons">
+                    <a href="login.html" class="btn btn-primary">Login</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="header-transition"></div>
+    
+    <section class="hero">
+        <div id="particles" class="particles-container"></div>
+        <div class="shadow-monarch-effect" id="shadowEffect"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-image">
+                    <img src="https://i.pinimg.com/736x/4b/73/dc/4b73dc1055a27d3a5b9e2a37be344b41.jpg" alt="Sung Jin-Woo" class="profile-image">
+                </div>
+                <div class="hero-text">
+                    <h1>Monarca <span style="color: var(--accent-color);">SUNG</span></h1>
+                    <p>Sou conhecido na comunidade hacker como Sung, ou como o próprio Sung Jin-Woo do meu manhua favorito Solo Leveling. Pentester CTF player Graduado em Defesa Cibernética Apaixonado por Segurança da Informação e Hacking.</p>
+                    <a href="treinamento.html" class="btn btn-primary">Explorar Treinamentos</a>
+                </div>
+            </div>
+           
+            <div class="about-section">
+                <h2>Minha Trajetória</h2>
+                <div class="about-items-container">
+                    <div class="about-item">
+                        <b>ICTS Protiviti</b><br>
+                        <a>Feb 2021 - Nov 2023</a>
+                        <p>- Penetration Tester PL</p>
+                        <p>- Penetration Tester JR</p>
+                        <p>- Cybersecurity Assistant</p>
+                    </div>
+                    <div class="about-item">
+                        <b>Hack The Box · Freelance</b><br>
+                        <a>Nov 2020 - May 2024</a>
+                        <p>- CTF Player</p>
+                    </div>
+                    <div class="about-item">
+                        <b>NAVA - Technology for Business</b><br>
+                        <a>Nov 2023 - Jul 2024</a>
+                        <p>- Senior Penetration Tester</p>
+                    </div>
+                    <div class="about-item">
+                        <b>KPMG Brazil</b><br>
+                        <a>Jul 2024 - Present</a>
+                        <p>- Cybersecurity Specialist</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="index.html" class="logo">
+                        <span>S</span>HADOW MONARCH
+                    </a>
+                    <p class="footer-description">
+                        Compartilhando conhecimento e técnicas de segurança cibernética para um mundo digital mais seguro.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-title">Contato</h3>
+                    <ul>
+                        <li><a href="mailto:contato@shadowmonarch.com"><i class="fas fa-envelope"></i> contato@shadowmonarch.com</a></li>
+                        <li><a href="tel:+5511999999999"><i class="fas fa-phone"></i> +55 (11) 99999-9999</a></li>
+                        <li><a href="https://maps.google.com/?q=São+Paulo,Brasil" target="_blank"><i class="fas fa-map-marker-alt"></i> São Paulo, Brasil</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Shadow Monarch. Todos os direitos reservados.</p>
+                <a href="#" class="back-to-top" aria-label="Voltar ao topo"><i class="fas fa-arrow-up"></i></a>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Efeito interativo com o mouse
+        const particlesContainer = document.getElementById('particles');
+        const particlesCount = 100;
+        const particles = [];
+        
+        // Criar partículas
+        for (let i = 0; i < particlesCount; i++) {
+            const particle = document.createElement('div');
+            particle.style.position = 'absolute';
+            particle.style.width = '2px';
+            particle.style.height = '2px';
+            particle.style.background = i % 2 === 0 ? 'rgba(128, 0, 255, 0.7)' : 'rgba(76, 0, 153, 0.7)';
+            particle.style.borderRadius = '50%';
+            particle.style.pointerEvents = 'none';
+            
+            // Posição inicial aleatória
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * window.innerHeight;
+            
+            // Velocidade aleatória
+            const vx = (Math.random() - 0.5) * 0.5;
+            const vy = (Math.random() - 0.5) * 0.5;
+            
+            particles.push({
+                element: particle,
+                x: x,
+                y: y,
+                vx: vx,
+                vy: vy
+            });
+            
+            particlesContainer.appendChild(particle);
+        }
+        
+        // Posição do mouse
+        let mouseX = 0;
+        let mouseY = 0;
+        
+        // Atualizar posição do mouse
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        
+        // Animar partículas
+        function animateParticles() {
+            for (let i = 0; i < particles.length; i++) {
+                const particle = particles[i];
+                
+                // Calcular distância até o mouse
+                const dx = mouseX - particle.x;
+                const dy = mouseY - particle.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                // Se estiver próximo do mouse, mover em direção ao mouse
+                if (distance < 150) {
+                    const angle = Math.atan2(dy, dx);
+                    const force = (150 - distance) / 1500;
+                    
+                    particle.vx += Math.cos(angle) * force;
+                    particle.vy += Math.sin(angle) * force;
+                }
+                
+                // Atualizar posição
+                particle.x += particle.vx;
+                particle.y += particle.vy;
+                
+                // Aplicar atrito
+                particle.vx *= 0.98;
+                particle.vy *= 0.98;
+                
+                // Manter dentro da tela
+                if (particle.x < 0) {
+                    particle.x = 0;
+                    particle.vx *= -1;
+                } else if (particle.x > window.innerWidth) {
+                    particle.x = window.innerWidth;
+                    particle.vx *= -1;
+                }
+                
+                if (particle.y < 0) {
+                    particle.y = 0;
+                    particle.vy *= -1;
+                } else if (particle.y > window.innerHeight) {
+                    particle.y = window.innerHeight;
+                    particle.vy *= -1;
+                }
+                
+                // Atualizar elemento
+                particle.element.style.transform = `translate(${particle.x}px, ${particle.y}px)`;
+            }
+            
+            requestAnimationFrame(animateParticles);
+        }
+        
+        animateParticles();
+        
+        // Criar efeito de sombras do Monarca
+        const shadowEffect = document.getElementById('shadowEffect');
+        
+        function createShadowTentacles() {
+            // Criar 8 tentáculos de sombra
+            for (let i = 0; i < 8; i++) {
+                const tentacle = document.createElement('div');
+                tentacle.classList.add('shadow-tentacle');
+                
+                // Tamanho aleatório
+                const width = Math.random() * 300 + 200;
+                const height = Math.random() * 100 + 50;
+                tentacle.style.width = `${width}px`;
+                tentacle.style.height = `${height}px`;
+                
+                // Posição aleatória
+                const posX = Math.random() * window.innerWidth;
+                const posY = Math.random() * window.innerHeight;
+                tentacle.style.left = `${posX}px`;
+                tentacle.style.top = `${posY}px`;
+                
+                // Atraso aleatório
+                const delay = Math.random() * 10;
+                tentacle.style.animationDelay = `${delay}s`;
+                
+                // Duração aleatória
+                const duration = Math.random() * 10 + 10;
+                tentacle.style.animationDuration = `${duration}s`;
+                
+                shadowEffect.appendChild(tentacle);
+            }
+        }
+        
+        createShadowTentacles();
+        
+        // Recriar tentáculos quando a janela for redimensionada
+        window.addEventListener('resize', () => {
+            shadowEffect.innerHTML = '';
+            createShadowTentacles();
+        });
+        
+        // Adicionar efeito de parallax suave
+        document.addEventListener('mousemove', (e) => {
+            const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+            const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+            
+            document.querySelector('.profile-image').style.transform = `translate(${moveX}px, ${moveY}px) scale(1)`;
+            
+            // Mover tentáculos de sombra com o mouse
+            const tentacles = document.querySelectorAll('.shadow-tentacle');
+            tentacles.forEach((tentacle, index) => {
+                const factor = (index + 1) * 0.01;
+                tentacle.style.transform = `translate(${moveX * factor}px, ${moveY * factor}px)`;
+            });
+        });
+    </script>
+</body>
+</html>
