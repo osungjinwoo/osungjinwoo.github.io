@@ -383,7 +383,7 @@
             background-color: var(--accent-color);
             color: white;
         }
-        
+
         ::-moz-selection {
             background-color: var(--accent-color);
             color: white;
@@ -510,18 +510,104 @@
 
         // Função para descobrir arquivos markdown na pasta artigos
         async function discoverMarkdownFiles() {
-            // Lista de arquivos baseada nos arquivos existentes na pasta artigos
-            return [
-                'artigos/2023-09-08-fale-comigo-canal-irc.md',
-                'artigos/2023-09-09-comandos-Irssi.md',
-                'artigos/2023-09-10-hexchat-irc.md',
-                'artigos/2023-09-13-applejuicy.md',
-                'artigos/2023-09-22-os-hackers-no-mundo.md',
-                'artigos/2023-09-29-fbi-hackeado-por-um-troll.md',
-                'artigos/2024-01-07-seu-celular-te-vigia.md',
-                'artigos/2024-11-17-os-segredos-do-shodan.md',
-                'artigos/seu-celular-te-vigia.md'
-            ];
+            const path = 'artigos/';
+            const files = [];
+
+            // Usar a API FileSystem para listar arquivos
+            const directoryHandle = await window.showDirectoryPicker({
+                startIn: 'documents',
+                id: 'artigos'
+            });
+
+            for await (const entry of directoryHandle.values()) {
+                if (entry.kind === 'file' && entry.name.endsWith('.md')) {
+                    files.push(path + entry.name);
+                }
+            }
+
+            return files;
+        }
+
+        // Função para carregar um arquivo markdown
+        async function loadMarkdownFile(path) {
+            try {
+                const response = await fetch(path);
+                if (!response.ok) throw new Error(`Erro ao carregar ${path}: ${response.status}`);
+
+                const markdown = await response.text();
+                const { content, metadata } = extractFrontMatter(markdown);
+
+                // Extrair ID do nome do arquivo
+                const filename = path.split('/').pop();
+                const id = filename.replace(/^\d{4}-\d{2}-\d{2}-/, '').replace('.md', '');
+
+                // Extrair data do nome do arquivo ou do metadata
+                let date = metadata.date;
+                if (!date) {
+                    const dateMatch = filename.match(/^(\d{4}-\d{2}-\d{2})/);
+                    date = dateMatch ? dateMatch[1] : 'Data desconhecida';
+                }
+
+                // Formatar a data
+                const formattedDate = formatDate(date);
+
+                // Extrair categorias
+                let articleCategories = [];
+                if (metadata.categories) {
+                    if (Array.isArray(metadata.categories)) {
+                        articleCategories = metadata.categories;
+                    } else {
+                        articleCategories = [metadata.categories];
+                    }
+                }
+
+                // Adicionar categorias ao conjunto global
+                articleCategories.forEach(cat => categories.add(cat.toLowerCase()));
+
+                // Extrair tags
+                let tags = [];
+                if (metadata.tags) {
+                    if (Array.isArray(metadata.tags)) {
+                        tags = metadata.tags;
+                    } else {
+                        tags = metadata.tags.split(',').map(tag => tag.trim());
+                    }
+                }
+
+                // Garantir que temos um caminho de imagem válido
+                let imagePath = metadata.imagePath || '';
+
+                // Corrigir caminho da imagem se necessário
+                if (imagePath.startsWith('/assets/')) {
+                    imagePath = imagePath.replace('/assets/', '');
+                }
+
+                // Se ainda não temos um caminho de imagem, usar imagem padrão
+                if (!imagePath) {
+                    imagePath = 'img/default-article.jpg';
+                }
+
+                console.log(`Artigo: ${id}, Imagem final: ${imagePath}`); // Log para debug
+
+                // Extrair resumo
+                const excerpt = metadata.excerpt || extractExcerpt(content);
+
+                return {
+                    id,
+                    title: metadata.title || id,
+                    date: formattedDate,
+                    rawDate: date, // Para ordenação
+                    excerpt,
+                    content,
+                    categories: articleCategories,
+                    tags,
+                    imagePath,
+                    path
+                };
+            } catch (error) {
+                console.error(`Erro ao carregar ${path}:`, error);
+                return null;
+            }
         }
 
         // Função para extrair metadados do markdown (front matter)
@@ -611,88 +697,6 @@
                 month: 'long',
                 year: 'numeric'
             });
-        }
-
-        // Função para carregar um arquivo markdown
-        async function loadMarkdownFile(path) {
-            try {
-                const response = await fetch(path);
-                if (!response.ok) throw new Error(`Erro ao carregar ${path}: ${response.status}`);
-
-                const markdown = await response.text();
-                const { content, metadata } = extractFrontMatter(markdown);
-
-                // Extrair ID do nome do arquivo
-                const filename = path.split('/').pop();
-                const id = filename.replace(/^\d{4}-\d{2}-\d{2}-/, '').replace('.md', '');
-
-                // Extrair data do nome do arquivo ou do metadata
-                let date = metadata.date;
-                if (!date) {
-                    const dateMatch = filename.match(/^(\d{4}-\d{2}-\d{2})/);
-                    date = dateMatch ? dateMatch[1] : 'Data desconhecida';
-                }
-
-                // Formatar a data
-                const formattedDate = formatDate(date);
-
-                // Extrair categorias
-                let articleCategories = [];
-                if (metadata.categories) {
-                    if (Array.isArray(metadata.categories)) {
-                        articleCategories = metadata.categories;
-                    } else {
-                        articleCategories = [metadata.categories];
-                    }
-                }
-
-                // Adicionar categorias ao conjunto global
-                articleCategories.forEach(cat => categories.add(cat.toLowerCase()));
-
-                // Extrair tags
-                let tags = [];
-                if (metadata.tags) {
-                    if (Array.isArray(metadata.tags)) {
-                        tags = metadata.tags;
-                    } else {
-                        tags = metadata.tags.split(',').map(tag => tag.trim());
-                    }
-                }
-
-                // Garantir que temos um caminho de imagem válido
-                let imagePath = metadata.imagePath || '';
-
-                // Corrigir caminho da imagem se necessário
-                if (imagePath.startsWith('/assets/')) {
-                    imagePath = imagePath.replace('/assets/', '');
-                }
-
-                // Se ainda não temos um caminho de imagem, usar imagem padrão
-                if (!imagePath) {
-                    imagePath = 'img/default-article.jpg';
-                }
-
-                console.log(`Artigo: ${id}, Imagem final: ${imagePath}`); // Log para debug
-
-                // Extrair resumo
-                const excerpt = metadata.excerpt || extractExcerpt(content);
-
-                return {
-                    id,
-                    title: metadata.title || id,
-                    date: formattedDate,
-                    rawDate: date, // Para ordenação
-                    excerpt,
-                    content,
-                    categories: articleCategories,
-                    tags,
-                    imagePath,
-                    path
-                };
-            } catch (error) {
-                console.error(`Erro ao carregar ${path}:`, error);
-                return null;
-            }
         }
 
         // Função para carregar todos os artigos
