@@ -399,10 +399,8 @@
                     <a href="index.html">Home</a>
                     <a href="links.html">Links</a>
                     <a href="artigos.html" class="active">Artigos</a>
-                    <a href="treinamento.html">Treinamento</a>
                 </div>
                 <div class="auth-buttons">
-                    <a href="login.html" class="btn btn-primary">Login</a>
                 </div>
             </nav>
         </div>
@@ -508,24 +506,54 @@
         let loadedArticles = [];
         const categories = new Set(['all']);
 
-        // Função para descobrir arquivos markdown na pasta artigos
-        async function discoverMarkdownFiles() {
-            const path = 'artigos/';
-            const files = [];
-
-            // Usar a API FileSystem para listar arquivos
-            const directoryHandle = await window.showDirectoryPicker({
-                startIn: 'documents',
-                id: 'artigos'
-            });
-
-            for await (const entry of directoryHandle.values()) {
-                if (entry.kind === 'file' && entry.name.endsWith('.md')) {
-                    files.push(path + entry.name);
+        // Função para listar arquivos da pasta blog/
+        async function listArticleFiles() {
+            try {
+                // Em um ambiente real, isso seria uma chamada para uma API no servidor
+                // que retornaria a lista de arquivos disponíveis
+                
+                // Simulação de uma resposta de API
+                const response = await fetch('api/list-articles.json')
+                    .catch(() => {
+                        console.log('API de listagem não disponível, usando lista estática');
+                        // Fallback para lista estática se a API não estiver disponível
+                        return {
+                            ok: false
+                        };
+                    });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    return data.files;
+                } else {
+                    // Fallback: lista estática de artigos
+                    return [
+                        'blog/2023-09-08-fale-comigo-canal-irc.md',
+                        'blog/2023-09-09-comandos-Irssi.md',
+                        'blog/2023-09-10-hexchat-irc.md',
+                        'blog/2023-09-13-applejuicy.md',
+                        'blog/2023-09-22-os-hackers-no-mundo.md',
+                        'blog/2023-09-29-fbi-hackeado-por-um-troll.md',
+                        'blog/2024-01-07-seu-celular-te-vigia.md',
+                        'blog/seu-celular-te-vigia.md',
+                        'blog/2024-11-17-os-segredos-do-shodan.md'
+                    ];
                 }
+            } catch (error) {
+                console.error('Erro ao listar arquivos:', error);
+                // Fallback: lista estática de artigos em caso de erro
+                return [
+                    'blog/2023-09-08-fale-comigo-canal-irc.md',
+                    'blog/2023-09-09-comandos-Irssi.md',
+                    'blog/2023-09-10-hexchat-irc.md',
+                    'blog/2023-09-13-applejuicy.md',
+                    'blog/2023-09-22-os-hackers-no-mundo.md',
+                    'blog/2023-09-29-fbi-hackeado-por-um-troll.md',
+                    'blog/2024-01-07-seu-celular-te-vigia.md',
+                    'blog/seu-celular-te-vigia.md',
+                    'blog/2024-11-17-os-segredos-do-shodan.md'
+                ];
             }
-
-            return files;
         }
 
         // Função para carregar um arquivo markdown
@@ -556,7 +584,7 @@
                 if (metadata.categories) {
                     if (Array.isArray(metadata.categories)) {
                         articleCategories = metadata.categories;
-                    } else {
+                    } else if (typeof metadata.categories === 'string') {
                         articleCategories = [metadata.categories];
                     }
                 }
@@ -569,25 +597,28 @@
                 if (metadata.tags) {
                     if (Array.isArray(metadata.tags)) {
                         tags = metadata.tags;
-                    } else {
+                    } else if (typeof metadata.tags === 'string') {
                         tags = metadata.tags.split(',').map(tag => tag.trim());
                     }
                 }
 
                 // Garantir que temos um caminho de imagem válido
-                let imagePath = metadata.imagePath || '';
+                let imagePath = '';
+                if (metadata.image && metadata.image.path) {
+                    imagePath = metadata.image.path;
+                } else if (metadata.image) {
+                    imagePath = metadata.image;
+                }
 
                 // Corrigir caminho da imagem se necessário
-                if (imagePath.startsWith('/assets/')) {
-                    imagePath = imagePath.replace('/assets/', '');
+                if (imagePath.startsWith('/')) {
+                    imagePath = imagePath.substring(1);
                 }
 
                 // Se ainda não temos um caminho de imagem, usar imagem padrão
                 if (!imagePath) {
                     imagePath = 'img/default-article.jpg';
                 }
-
-                console.log(`Artigo: ${id}, Imagem final: ${imagePath}`); // Log para debug
 
                 // Extrair resumo
                 const excerpt = metadata.excerpt || extractExcerpt(content);
@@ -621,18 +652,7 @@
             const content = markdown.slice(match[0].length);
             const metadata = {};
 
-            // Extrair diretamente o caminho da imagem usando uma expressão regular específica
-            const imagePathRegex = /image:\s*path:\s*([^\s]+)/;
-            const imageMatch = frontMatter.match(imagePathRegex);
-
-            if (imageMatch && imageMatch[1]) {
-                const imagePath = imageMatch[1].trim();
-                metadata.image = { path: imagePath };
-                metadata.imagePath = imagePath;
-                console.log("Imagem encontrada (formato aninhado):", imagePath);
-            }
-
-            // Processar o restante do front matter linha por linha
+            // Processar o front matter linha por linha
             const lines = frontMatter.split('\n');
             for (let i = 0; i < lines.length; i++) {
                 const line = lines[i].trim();
@@ -642,28 +662,41 @@
                 const colonIndex = line.indexOf(':');
                 if (colonIndex !== -1) {
                     const key = line.slice(0, colonIndex).trim();
-                    const value = line.slice(colonIndex + 1).trim();
+                    let value = line.slice(colonIndex + 1).trim();
+                    
+                    // Remover aspas se existirem
+                    if (value.startsWith('"') && value.endsWith('"')) {
+                        value = value.slice(1, -1);
+                    }
 
-                    // Processar arrays (tags, categorias)
-                    if (value.startsWith('[') && value.endsWith(']')) {
-                        metadata[key] = value.slice(1, -1).split(',').map(item => item.trim());
-                    } else if (value !== '') {
-                        metadata[key] = value;
-
-                        // Se for uma imagem direta (sem ser objeto aninhado)
-                        if (key === 'image' && !metadata.imagePath && value !== '') {
-                            metadata.imagePath = value;
-                            console.log("Imagem direta encontrada:", value);
+                    // Verificar se é um objeto aninhado (como image)
+                    if (i + 1 < lines.length && lines[i + 1].trim().match(/^\s+\w+:/)) {
+                        metadata[key] = {};
+                        i++;
+                        while (i < lines.length && lines[i].trim().match(/^\s+\w+:/)) {
+                            const nestedLine = lines[i].trim();
+                            const nestedColonIndex = nestedLine.indexOf(':');
+                            const nestedKey = nestedLine.slice(0, nestedColonIndex).trim();
+                            let nestedValue = nestedLine.slice(nestedColonIndex + 1).trim();
+                            
+                            // Remover aspas se existirem
+                            if (nestedValue.startsWith('"') && nestedValue.endsWith('"')) {
+                                nestedValue = nestedValue.slice(1, -1);
+                            }
+                            
+                            metadata[key][nestedKey] = nestedValue;
+                            i++;
+                        }
+                        i--; // Voltar um para compensar o incremento do loop principal
+                    } else {
+                        // Processar arrays (tags, categorias)
+                        if (value.startsWith('[') && value.endsWith(']')) {
+                            metadata[key] = value.slice(1, -1).split(',').map(item => item.trim().replace(/"/g, ''));
+                        } else {
+                            metadata[key] = value;
                         }
                     }
                 }
-            }
-
-            // Verificar se temos um caminho de imagem válido
-            if (metadata.imagePath) {
-                console.log("Caminho final da imagem:", metadata.imagePath);
-            } else {
-                console.warn("Nenhum caminho de imagem encontrado no front matter");
             }
 
             return { content, metadata };
@@ -691,12 +724,25 @@
 
         // Função para formatar a data
         function formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('pt-BR', {
-                day: '2-digit',
-                month: 'long',
-                year: 'numeric'
-            });
+            try {
+                const date = new Date(dateString);
+                if (isNaN(date.getTime())) {
+                    // Tentar formato DD/MM/YYYY
+                    const parts = dateString.split('/');
+                    if (parts.length === 3) {
+                        return `${parts[0]}/${parts[1]}/${parts[2]}`;
+                    }
+                    return dateString;
+                }
+                return date.toLocaleDateString('pt-BR', {
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric'
+                });
+            } catch (e) {
+                console.error("Erro ao formatar data:", e);
+                return dateString;
+            }
         }
 
         // Função para carregar todos os artigos
@@ -704,9 +750,9 @@
             document.getElementById('loading').style.display = 'flex';
 
             try {
-                // Descobrir arquivos markdown
-                const files = await discoverMarkdownFiles();
-
+                // Obter a lista de arquivos
+                const files = await listArticleFiles();
+                
                 // Carregar cada arquivo
                 const articlesPromises = files.map(file => loadMarkdownFile(file));
                 const articles = await Promise.all(articlesPromises);
@@ -812,8 +858,6 @@
                 // Garantir que a imagem seja exibida corretamente
                 const imageUrl = article.imagePath || 'img/default-article.jpg';
 
-                console.log(`Renderizando card para ${article.id} com imagem: ${imageUrl}`);
-
                 // Simplificar o layout do card
                 articleCard.innerHTML = `
                     <div class="article-image">
@@ -909,7 +953,7 @@
             document.getElementById('modal-article-image').src = article.imagePath;
             document.getElementById('modal-article-image').alt = article.title;
 
-            // Renderizar o conteúdo markdown
+            // Renderizar o conteúdo markdown usando marked.js
             document.getElementById('modal-article-content').innerHTML = DOMPurify.sanitize(
                 marked.parse(article.content, { renderer })
             );
