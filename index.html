@@ -352,11 +352,30 @@
             box-shadow: 0 5px 15px rgba(255, 62, 120, 0.4);
         }
         
-        /* Footer */
+        /* Footer Styles */
         footer {
             background: rgba(10, 10, 10, 0.8);
             padding: 60px 0 30px;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 60px;
+        }
+        
+        .footer-description {
+            color: #a0a0a0;
+            line-height: 1.6;
+            margin-top: 15px;
+            max-width: 400px;
+        }
+        
+        .footer-logo .logo {
+            font-size: 28px;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+        
+        .footer-logo .logo span {
+            font-size: 32px;
+            color: var(--accent-color);
         }
         
         .footer-content {
@@ -367,6 +386,10 @@
         
         .footer-logo {
             grid-column: span 1;
+        }
+        
+        .footer-column {
+            padding-top: 10px;
         }
         
         .footer-social {
@@ -402,6 +425,8 @@
         
         .footer-column ul {
             list-style: none;
+            padding: 0;
+            margin: 0;
         }
         
         .footer-column li {
@@ -415,10 +440,13 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            font-size: 15px;
         }
         
         .footer-column a i {
             color: var(--accent-color);
+            width: 20px;
+            text-align: center;
         }
         
         .footer-column a:hover {
@@ -432,6 +460,28 @@
             border-top: 1px solid rgba(255, 255, 255, 0.05);
             color: #777;
             font-size: 14px;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 40px;
+            height: 40px;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            opacity: 0.8;
+        }
+        
+        .back-to-top:hover {
+            opacity: 1;
+            transform: translateY(-5px);
         }
         
         /* Responsive */
@@ -702,7 +752,7 @@
             <div class="footer-content">
                 <div class="footer-logo">
                     <a href="index.html" class="logo">
-                        <span>S</span>
+                        <span></span>
                     </a>
                     <p class="footer-description">
                         Compartilhando conhecimento e técnicas de segurança cibernética para um mundo digital mais seguro.
