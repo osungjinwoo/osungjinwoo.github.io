@@ -1,0 +1,54 @@
+# Configurações básicas do site
+title: Blog de Segurança e Hacking
+description: Compartilhando conhecimento sobre segurança, hacking e tecnologia
+baseurl: ""
+url: ""
+
+# Configurações de build
+markdown: kramdown
+highlighter: rouge
+
+# Configurações de coleções e posts
+collections:
+  posts:
+    output: true
+    permalink: /posts/:title/
+
+# Configurações de diretórios
+source: .
+destination: ./_site
+plugins_dir: _plugins
+layouts_dir: _layouts
+data_dir: _data
+includes_dir: _includes
+
+# Configurações de processamento
+include:
+  - _pages
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .gitignore
+  - README.md
+
+# Configurações de plugins
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Configurações de paginação
+paginate: 10
+paginate_path: "/page:num/"
+
+# Configurações de posts
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      author: "Al4xs"
+      comments: true 
