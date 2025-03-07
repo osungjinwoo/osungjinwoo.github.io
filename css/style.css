@@ -756,6 +756,7 @@ footer {
     background: rgba(255, 255, 255, 0.05);
     border-radius: 12px;
     overflow: hidden;
+    cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     display: flex;
@@ -830,7 +831,6 @@ footer {
     color: var(--dark-color);
     padding: 0.5rem 1.2rem;
     border-radius: 50px;
-    text-decoration: none;
     font-weight: 500;
     font-size: 0.9rem;
     transition: all 0.3s ease;
@@ -838,9 +838,8 @@ footer {
     align-items: center;
 }
 
-.read-more:hover {
+.card:hover .read-more {
     background: #ff5288;
-    transform: translateX(3px);
 }
 
 .read-more:after {
@@ -849,7 +848,7 @@ footer {
     transition: transform 0.3s ease;
 }
 
-.read-more:hover:after {
+.card:hover .read-more:after {
     transform: translateX(3px);
 }
 
