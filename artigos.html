@@ -35,7 +35,7 @@
             <!-- Artigo 1 -->
             <div class="card" onclick="openPostModal('blog/2024-11-17-os-segredos-do-shodan.md')">
                 <div class="card-image">
-                    <img src="img/default-post.jpg" alt="Imagem do artigo">
+                    <img src="https://via.placeholder.com/800x400/0a0a0a/ff3e78?text=Blog+Post" alt="Imagem do artigo">
                 </div>
                 <div class="card-header">
                     <h2>Os segredos do Shodan - Google dos hackers</h2>
@@ -60,7 +60,7 @@
             <!-- Artigo 2 -->
             <div class="card" onclick="openPostModal('blog/2024-01-07-seu-celular-te-vigia.md')">
                 <div class="card-image">
-                    <img src="img/default-post.jpg" alt="Imagem do artigo">
+                    <img src="https://via.placeholder.com/800x400/0a0a0a/ff3e78?text=Blog+Post" alt="Imagem do artigo">
                 </div>
                 <div class="card-header">
                     <h2>Seu celular te espiona</h2>
@@ -84,7 +84,7 @@
             <!-- Artigo 3 -->
             <div class="card" onclick="openPostModal('blog/2023-09-29-fbi-hackeado-por-um-troll.md')">
                 <div class="card-image">
-                    <img src="img/default-post.jpg" alt="Imagem do artigo">
+                    <img src="https://via.placeholder.com/800x400/0a0a0a/ff3e78?text=Blog+Post" alt="Imagem do artigo">
                 </div>
                 <div class="card-header">
                     <h2>O FBI foi hackeado por um troll</h2>
@@ -108,7 +108,7 @@
             <!-- Artigo 4 -->
             <div class="card" onclick="openPostModal('blog/2023-09-22-os-hackers-no-mundo.md')">
                 <div class="card-image">
-                    <img src="img/default-post.jpg" alt="Imagem do artigo">
+                    <img src="https://via.placeholder.com/800x400/0a0a0a/ff3e78?text=Blog+Post" alt="Imagem do artigo">
                 </div>
                 <div class="card-header">
                     <h2>Os hackers no mundo</h2>
@@ -131,7 +131,7 @@
             <!-- Artigo 5 -->
             <div class="card" onclick="openPostModal('blog/2023-09-13-applejuicy.md')">
                 <div class="card-image">
-                    <img src="img/default-post.jpg" alt="Imagem do artigo">
+                    <img src="https://via.placeholder.com/800x400/0a0a0a/ff3e78?text=Blog+Post" alt="Imagem do artigo">
                 </div>
                 <div class="card-header">
                     <h2>Ataque de notificações de emparelhagem falsificadas Apple Juice</h2>
@@ -156,7 +156,7 @@
             <!-- Artigo 6 -->
             <div class="card" onclick="openPostModal('blog/2023-09-10-hexchat-irc.md')">
                 <div class="card-image">
-                    <img src="img/default-post.jpg" alt="Imagem do artigo">
+                    <img src="https://via.placeholder.com/800x400/0a0a0a/ff3e78?text=Blog+Post" alt="Imagem do artigo">
                 </div>
                 <div class="card-header">
                     <h2>Como acessar o IRC modo GUI com hexchat</h2>
@@ -181,7 +181,7 @@
             <!-- Artigo 7 -->
             <div class="card" onclick="openPostModal('blog/2023-09-09-comandos-Irssi.md')">
                 <div class="card-image">
-                    <img src="img/default-post.jpg" alt="Imagem do artigo">
+                    <img src="https://via.placeholder.com/800x400/0a0a0a/ff3e78?text=Blog+Post" alt="Imagem do artigo">
                 </div>
                 <div class="card-header">
                     <h2>Tutorial de comandos IRC para chat IRSSI</h2>
@@ -206,7 +206,7 @@
             <!-- Artigo 8 -->
             <div class="card" onclick="openPostModal('blog/2023-09-08-fale-comigo-canal-irc.md')">
                 <div class="card-image">
-                    <img src="img/default-post.jpg" alt="Imagem do artigo">
+                    <img src="https://via.placeholder.com/800x400/0a0a0a/ff3e78?text=Blog+Post" alt="Imagem do artigo">
                 </div>
                 <div class="card-header">
                     <h2>Fale comigo pelo IRC via tor</h2>
@@ -272,14 +272,83 @@
         </div>
     </div>
 
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
-        // Função para abrir o modal e carregar o post
+        // Dados estáticos dos posts
+        const postsData = [
+            {
+                title: "Os segredos do Shodan - Google dos hackers",
+                date: "17/11/2024",
+                image: "https://via.placeholder.com/800x400/0a0a0a/ff3e78?text=Shodan",
+                excerpt: "Embora eu ame um título persuasivo, não existe segredo algum no Shodan. Entretanto, se você é um pesquisador de segurança, você vai amar esse guia que preparei para você...",
+                tags: ["Shodan", "tutorial", "web"],
+                content: "# Os segredos do Shodan\n\nEmbora eu ame um título persuasivo, não existe segredo algum no Shodan. Entretanto, se você é um pesquisador de segurança, você vai amar esse guia que preparei para você...\n\n## O que é o Shodan?\n\nO Shodan é um mecanismo de busca que permite aos usuários encontrar dispositivos conectados à internet usando uma variedade de filtros. Diferente do Google, que indexa o conteúdo das páginas web, o Shodan indexa os banners de serviços que são retornados pelos dispositivos.\n\n## Como usar o Shodan\n\n1. Acesse [shodan.io](https://www.shodan.io/)\n2. Crie uma conta gratuita\n3. Comece a pesquisar!"
+            },
+            {
+                title: "Seu celular te espiona",
+                date: "07/01/2024",
+                image: "https://via.placeholder.com/800x400/0a0a0a/ff3e78?text=Privacidade",
+                excerpt: "Alguma vez na vida você já falou sobre comprar algo perto do seu smartphone e logo em seguida ao navegar pela rede social deu de cara com um anúncio a respeito do que tinha dito que iria comprar?",
+                tags: ["espionagem", "privacidade"],
+                content: "# Seu celular te espiona\n\nAlguma vez na vida você já falou sobre comprar algo perto do seu smartphone e logo em seguida ao navegar pela rede social deu de cara com um anúncio a respeito do que tinha dito que iria comprar?\n\n## Como isso acontece?\n\nExistem várias formas pelas quais seu celular pode coletar dados sobre você:\n\n1. Microfones sempre ativos\n2. Permissões excessivas de aplicativos\n3. Rastreamento de localização\n4. Cookies e rastreadores web"
+            },
+            // Adicione dados para os outros posts...
+        ];
+
+        // Função para carregar as imagens dos posts
+        function loadPostImages() {
+            // Para cada post, atualize a imagem correspondente
+            postsData.forEach((post, index) => {
+                const imageElement = document.querySelector(`.card:nth-child(${index + 1}) .card-image img`);
+                if (imageElement && post.image) {
+                    imageElement.src = post.image;
+                    imageElement.alt = post.title;
+                }
+            });
+        }
+
+        // Função para abrir o modal com dados estáticos
         function openPostModal(postPath) {
             document.getElementById('postModal').style.display = 'block';
-            document.body.style.overflow = 'hidden'; // Impede a rolagem da página de fundo
-            loadMarkdownToModal(postPath);
+            document.body.style.overflow = 'hidden';
+            
+            // Encontre o índice do post com base no caminho
+            const postIndex = postsData.findIndex(post => {
+                const fileName = postPath.split('/').pop();
+                return fileName.includes(post.title.toLowerCase().replace(/ /g, '-'));
+            });
+            
+            if (postIndex !== -1) {
+                const post = postsData[postIndex];
+                const modalContent = document.getElementById('modal-post-content');
+                
+                const html = `
+                    <article class="post">
+                        <header class="post-header">
+                            <h1 class="post-title">${post.title}</h1>
+                            <div class="post-meta">
+                                <span class="post-date">${post.date}</span>
+                            </div>
+                            <div class="post-featured-image">
+                                <img src="${post.image}" alt="${post.title}">
+                            </div>
+                        </header>
+                        <div class="post-content">
+                            ${marked.parse(post.content)}
+                        </div>
+                        <div class="post-tags">
+                            Tags: 
+                            ${post.tags.map(tag => `<span class="tag">${tag}</span>`).join(' ')}
+                        </div>
+                    </article>
+                `;
+                
+                modalContent.innerHTML = html;
+            } else {
+                // Fallback para o método original se não encontrar o post nos dados estáticos
+                loadMarkdownToModal(postPath);
+            }
         }
 
         // Função para fechar o modal
@@ -372,62 +441,6 @@
                     `;
                 });
         }
-
-        // Função para carregar as imagens dos posts
-        function loadPostImages() {
-            // Lista de todos os posts e seus elementos de imagem correspondentes
-            const posts = [
-                { path: 'blog/2024-11-17-os-segredos-do-shodan.md', imageElement: document.querySelector('.card:nth-child(1) .card-image img') },
-                { path: 'blog/2024-01-07-seu-celular-te-vigia.md', imageElement: document.querySelector('.card:nth-child(2) .card-image img') },
-                { path: 'blog/2023-09-29-fbi-hackeado-por-um-troll.md', imageElement: document.querySelector('.card:nth-child(3) .card-image img') },
-                { path: 'blog/2023-09-22-os-hackers-no-mundo.md', imageElement: document.querySelector('.card:nth-child(4) .card-image img') },
-                { path: 'blog/2023-09-13-applejuicy.md', imageElement: document.querySelector('.card:nth-child(5) .card-image img') },
-                { path: 'blog/2023-09-10-hexchat-irc.md', imageElement: document.querySelector('.card:nth-child(6) .card-image img') },
-                { path: 'blog/2023-09-09-comandos-Irssi.md', imageElement: document.querySelector('.card:nth-child(7) .card-image img') },
-                { path: 'blog/2023-09-08-fale-comigo-canal-irc.md', imageElement: document.querySelector('.card:nth-child(8) .card-image img') }
-            ];
-
-            // Para cada post, carregue o arquivo Markdown e extraia a imagem
-            posts.forEach(post => {
-                fetch(post.path)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Arquivo não encontrado');
-                        }
-                        return response.text();
-                    })
-                    .then(markdown => {
-                        // Extrair o front matter
-                        const frontMatterRegex = /^---\n([\s\S]*?)\n---\n/;
-                        const match = markdown.match(frontMatterRegex);
-                        
-                        if (match) {
-                            const frontMatterText = match[1];
-                            // Procurar pela linha de imagem no front matter
-                            const imageMatch = frontMatterText.match(/image:\s*(.*?)(\n|$)/);
-                            
-                            if (imageMatch && imageMatch[1]) {
-                                let imagePath = imageMatch[1].trim();
-                                
-                                // Se a imagem começar com "path:", remova isso
-                                imagePath = imagePath.replace(/^path:\s*/, '').trim();
-                                
-                                // Se a imagem não estiver vazia, atualize o src da imagem
-                                if (imagePath && imagePath !== '') {
-                                    post.imageElement.src = imagePath;
-                                    post.imageElement.alt = post.path.split('/').pop().replace('.md', '');
-                                }
-                            }
-                        }
-                    })
-                    .catch(error => {
-                        console.error(`Erro ao carregar imagem para ${post.path}:`, error);
-                    });
-            });
-        }
-
-        // Carregar as imagens quando a página for carregada
-        document.addEventListener('DOMContentLoaded', loadPostImages);
     </script>
 </body>
 </html>
