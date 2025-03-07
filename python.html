@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cheatsheet Python para Iniciantes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Estilos específicos para a página de Python */
+        :root {
+            --bg-color: #000000;
+            --card-bg: #0a0a0a;
+            --card-border: rgba(255, 255, 255, 0.05);
+            --text-color: #e0e0e0;
+            --heading-color: #ff3e78;
+            --comment-color: #a0a0a0;
+            --string-color: #7ee787;
+            --number-color: #f78166;
+            --keyword-color: #ff7b72;
+            --function-color: #d2a8ff;
+            --variable-color: #79c0ff;
+            --property-color: #7ee787;
+        }
+        
+        body {
+            padding: 100px 20px 30px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: var(--heading-color);
+            margin-bottom: 40px;
+            font-size: 2.2rem;
+            font-weight: 600;
+        }
+        
+        .content-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(255, 62, 120, 0.2);
+        }
+        
+        .section-title {
+            color: var(--heading-color);
+            font-size: 1.25rem;
+            font-weight: 600;
+            padding: 16px 16px 0 16px;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .copy-button {
+            background: transparent;
+            border: none;
+            color: var(--comment-color);
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 4px;
+            transition: color 0.2s;
+        }
+        
+        .copy-button:hover {
+            color: var(--heading-color);
+        }
+        
+        pre {
+            margin: 0;
+            padding: 16px;
+            overflow-x: auto;
+            background-color: var(--card-bg);
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        
+        code {
+            color: var(--text-color);
+        }
+        
+        .comment {
+            color: var(--comment-color);
+            font-style: italic;
+        }
+        
+        .string {
+            color: var(--string-color);
+        }
+        
+        .number {
+            color: var(--number-color);
+        }
+        
+        .keyword {
+            color: var(--keyword-color);
+            font-weight: 500;
+        }
+        
+        .function {
+            color: var(--function-color);
+        }
+        
+        .variable {
+            color: var(--variable-color);
+        }
+        
+        .property {
+            color: var(--property-color);
+        }
+        
+        @media (max-width: 1200px) {
+            .content-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .content-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <span></span>
+                </a>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="links.html">Links</a>
+                    <a href="artigos.html">Artigos</a>
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-trigger">Cheatsheets <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="python.html" class="active">Python</a>
+                            <a href="bash.html">Bash</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="auth-buttons">
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <h1>Cheatsheet Python para Iniciantes</h1>
+    
+    <div class="content-container">
+        <div class="section">
+            <h2 class="section-title">
+                Variáveis e Tipos
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Variáveis são como caixas para guardar coisas!</span>
+
+<span class="comment"># Texto (strings) - usamos aspas</span>
+<span class="variable">nome</span> = <span class="string">"Maria"</span>
+<span class="variable">comida_favorita</span> = <span class="string">"pizza"</span>
+
+<span class="comment"># Números inteiros</span>
+<span class="variable">idade</span> = <span class="number">10</span>
+<span class="variable">numero_irmaos</span> = <span class="number">2</span>
+
+<span class="comment"># Números com decimais (float)</span>
+<span class="variable">altura</span> = <span class="number">1.45</span>
+<span class="variable">peso</span> = <span class="number">35.5</span>
+
+<span class="comment"># Verdadeiro ou Falso (booleanos)</span>
+<span class="variable">gosta_de_chocolate</span> = <span class="keyword">True</span>
+<span class="variable">gosta_de_brocolis</span> = <span class="keyword">False</span>
+
+<span class="comment"># Mostrar na tela</span>
+<span class="function">print</span>(<span class="variable">nome</span>)  <span class="comment"># Mostra: Maria</span>
+<span class="function">print</span>(<span class="string">"Eu tenho"</span>, <span class="variable">idade</span>, <span class="string">"anos"</span>)  <span class="comment"># Mostra: Eu tenho 10 anos</span></code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Manipulação de Strings
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Strings são textos entre aspas</span>
+
+<span class="comment"># Juntar textos (concatenação)</span>
+<span class="variable">primeiro_nome</span> = <span class="string">"Lucas"</span>
+<span class="variable">sobrenome</span> = <span class="string">"Silva"</span>
+<span class="variable">nome_completo</span> = <span class="variable">primeiro_nome</span> + <span class="string">" "</span> + <span class="variable">sobrenome</span>
+<span class="function">print</span>(<span class="variable">nome_completo</span>)  <span class="comment"># Lucas Silva</span>
+
+<span class="comment"># Deixar tudo em MAIÚSCULAS</span>
+<span class="variable">grito</span> = <span class="string">"olá mundo"</span>.<span class="function">upper</span>()
+<span class="function">print</span>(<span class="variable">grito</span>)  <span class="comment"># OLÁ MUNDO</span>
+
+<span class="comment"># Deixar tudo em minúsculas</span>
+<span class="variable">sussurro</span> = <span class="string">"CUIDADO!"</span>.<span class="function">lower</span>()
+<span class="function">print</span>(<span class="variable">sussurro</span>)  <span class="comment"># cuidado!</span>
+
+<span class="comment"># Substituir partes do texto</span>
+<span class="variable">frase</span> = <span class="string">"Eu gosto de maçãs"</span>
+<span class="variable">nova_frase</span> = <span class="variable">frase</span>.<span class="function">replace</span>(<span class="string">"maçãs"</span>, <span class="string">"bananas"</span>)
+<span class="function">print</span>(<span class="variable">nova_frase</span>)  <span class="comment"># Eu gosto de bananas</span>
+
+<span class="comment"># Formato fácil (f-strings)</span>
+<span class="variable">animal</span> = <span class="string">"gato"</span>
+<span class="variable">idade_animal</span> = <span class="number">3</span>
+<span class="function">print</span>(<span class="string">f"Meu {animal} tem {idade_animal} anos"</span>)</code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Estruturas de Controle
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># if, elif e else - tomar decisões!</span>
+
+<span class="variable">idade</span> = <span class="number">12</span>
+
+<span class="keyword">if</span> <span class="variable">idade</span> < <span class="number">13</span>:
+    <span class="function">print</span>(<span class="string">"Você é criança!"</span>)
+<span class="keyword">elif</span> <span class="variable">idade</span> < <span class="number">18</span>:
+    <span class="function">print</span>(<span class="string">"Você é adolescente!"</span>)
+<span class="keyword">else</span>:
+    <span class="function">print</span>(<span class="string">"Você é adulto!"</span>)
+
+<span class="comment"># Comparações</span>
+<span class="variable">tem_dinheiro</span> = <span class="keyword">True</span>
+<span class="variable">tem_fome</span> = <span class="keyword">True</span>
+
+<span class="keyword">if</span> <span class="variable">tem_dinheiro</span> <span class="keyword">and</span> <span class="variable">tem_fome</span>:
+    <span class="function">print</span>(<span class="string">"Vamos comprar um lanche!"</span>)</code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Funções Básicas
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Funções - como receitas de bolo!</span>
+
+<span class="comment"># Função simples</span>
+<span class="keyword">def</span> <span class="function">dizer_oi</span>(<span class="variable">nome</span>):
+    <span class="function">print</span>(<span class="string">f"Oi, {nome}!"</span>)
+
+<span class="comment"># Usar a função</span>
+<span class="function">dizer_oi</span>(<span class="string">"Ana"</span>)  <span class="comment"># Mostra: Oi, Ana!</span>
+
+<span class="comment"># Função que retorna valor</span>
+<span class="keyword">def</span> <span class="function">somar</span>(<span class="variable">a</span>, <span class="variable">b</span>):
+    <span class="keyword">return</span> <span class="variable">a</span> + <span class="variable">b</span>
+
+<span class="variable">resultado</span> = <span class="function">somar</span>(<span class="number">5</span>, <span class="number">3</span>)
+<span class="function">print</span>(<span class="variable">resultado</span>)  <span class="comment"># Mostra: 8</span></code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Loops - For
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Loop for - repetir algo várias vezes!</span>
+
+<span class="comment"># Contar de 1 até 5</span>
+<span class="keyword">for</span> <span class="variable">numero</span> <span class="keyword">in</span> <span class="function">range</span>(<span class="number">1</span>, <span class="number">6</span>):
+    <span class="function">print</span>(<span class="variable">numero</span>)
+
+<span class="comment"># Loop em uma lista</span>
+<span class="variable">frutas</span> = [<span class="string">"maçã"</span>, <span class="string">"banana"</span>, <span class="string">"laranja"</span>]
+<span class="keyword">for</span> <span class="variable">fruta</span> <span class="keyword">in</span> <span class="variable">frutas</span>:
+    <span class="function">print</span>(<span class="string">f"Eu gosto de {fruta}"</span>)</code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Loops - While
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Loop while - repetir enquanto algo for verdadeiro</span>
+
+<span class="variable">contador</span> = <span class="number">1</span>
+<span class="keyword">while</span> <span class="variable">contador</span> <= <span class="number">5</span>:
+    <span class="function">print</span>(<span class="variable">contador</span>)
+    <span class="variable">contador</span> += <span class="number">1</span>
+
+<span class="comment"># Jogo de adivinhar</span>
+<span class="variable">numero_secreto</span> = <span class="number">7</span>
+<span class="keyword">while</span> <span class="keyword">True</span>:
+    <span class="variable">palpite</span> = <span class="function">int</span>(<span class="function">input</span>(<span class="string">"Adivinhe o número (1-10): "</span>))
+    <span class="keyword">if</span> <span class="variable">palpite</span> == <span class="variable">numero_secreto</span>:
+        <span class="function">print</span>(<span class="string">"Parabéns! Você acertou!"</span>)
+        <span class="keyword">break</span></code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Listas e Tuplas
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Listas - coleção de itens que pode mudar</span>
+
+<span class="variable">notas</span> = [<span class="number">7</span>, <span class="number">8.5</span>, <span class="number">9.5</span>, <span class="number">10</span>]
+<span class="variable">amigos</span> = [<span class="string">"João"</span>, <span class="string">"Maria"</span>, <span class="string">"Pedro"</span>]
+
+<span class="comment"># Adicionar item no final</span>
+<span class="variable">amigos</span>.<span class="function">append</span>(<span class="string">"Ana"</span>)
+
+<span class="comment"># Remover item</span>
+<span class="variable">amigos</span>.<span class="function">remove</span>(<span class="string">"Pedro"</span>)
+
+<span class="comment"># Tuplas - coleção que não pode mudar</span>
+<span class="variable">coordenadas</span> = (<span class="number">10</span>, <span class="number">20</span>)
+<span class="variable">cores_rgb</span> = (<span class="number">255</span>, <span class="number">128</span>, <span class="number">0</span>)</code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Dicionários
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Dicionários - pares de chave e valor</span>
+
+<span class="variable">aluno</span> = {
+    <span class="string">"nome"</span>: <span class="string">"João"</span>,
+    <span class="string">"idade"</span>: <span class="number">12</span>,
+    <span class="string">"notas"</span>: [<span class="number">8</span>, <span class="number">9</span>, <span class="number">7.5</span>]
+}
+
+<span class="comment"># Acessar valores</span>
+<span class="function">print</span>(<span class="variable">aluno</span>[<span class="string">"nome"</span>])  <span class="comment"># João</span>
+
+<span class="comment"># Adicionar novo par</span>
+<span class="variable">aluno</span>[<span class="string">"cidade"</span>] = <span class="string">"São Paulo"</span>
+
+<span class="comment"># Remover par</span>
+<span class="keyword">del</span> <span class="variable">aluno</span>[<span class="string">"idade"</span>]</code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Tratamento de Erros
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Try/Except - como uma rede de segurança!</span>
+
+<span class="comment"># Divisão segura</span>
+<span class="keyword">try</span>:
+    <span class="variable">numero</span> = <span class="function">int</span>(<span class="function">input</span>(<span class="string">"Digite um número: "</span>))
+    <span class="variable">resultado</span> = <span class="number">10</span> / <span class="variable">numero</span>
+    <span class="function">print</span>(<span class="string">f"10 dividido por {numero} é {resultado}"</span>)
+<span class="keyword">except</span> <span class="function">ValueError</span>:
+    <span class="function">print</span>(<span class="string">"Ops! Digite um número válido!"</span>)
+<span class="keyword">except</span> <span class="function">ZeroDivisionError</span>:
+    <span class="function">print</span>(<span class="string">"Não podemos dividir por zero!"</span>)
+<span class="keyword">finally</span>:
+    <span class="function">print</span>(<span class="string">"Fim do programa!"</span>)</code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                JSON
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># JSON - como guardar informações em formato de texto</span>
+
+<span class="keyword">import</span> json
+
+<span class="comment"># Criar um dicionário de jogador</span>
+<span class="variable">jogador</span> = {
+    <span class="string">"nome"</span>: <span class="string">"Mario"</span>,
+    <span class="string">"vidas"</span>: <span class="number">3</span>,
+    <span class="string">"itens"</span>: [<span class="string">"cogumelo"</span>, <span class="string">"estrela"</span>],
+    <span class="string">"ativo"</span>: <span class="keyword">True</span>
+}
+
+<span class="comment"># Salvar em arquivo JSON</span>
+<span class="keyword">with</span> <span class="function">open</span>(<span class="string">'jogador.json'</span>, <span class="string">'w'</span>) <span class="keyword">as</span> <span class="variable">arquivo</span>:
+    <span class="function">json</span>.<span class="function">dump</span>(<span class="variable">jogador</span>, <span class="variable">arquivo</span>)
+
+<span class="comment"># Ler do arquivo JSON</span>
+<span class="keyword">with</span> <span class="function">open</span>(<span class="string">'jogador.json'</span>, <span class="string">'r'</span>) <span class="keyword">as</span> <span class="variable">arquivo</span>:
+    <span class="variable">dados</span> = <span class="function">json</span>.<span class="function">load</span>(<span class="variable">arquivo</span>)
+    <span class="function">print</span>(<span class="variable">dados</span>[<span class="string">"nome"</span>])</code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Expressões Regulares
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Regex - encontrar padrões em texto</span>
+
+<span class="keyword">import</span> re
+
+<span class="comment"># Procurar um padrão</span>
+<span class="variable">texto</span> = <span class="string">"Meu número é 123-456-789"</span>
+<span class="variable">padrao</span> = <span class="string">r"\d{3}-\d{3}-\d{3}"</span>  <span class="comment"># Procura números no formato xxx-xxx-xxx</span>
+
+<span class="comment"># Encontrar o número</span>
+<span class="variable">numero</span> = <span class="variable">re</span>.<span class="function">search</span>(<span class="variable">padrao</span>, <span class="variable">texto</span>)
+<span class="function">print</span>(<span class="variable">numero</span>.<span class="function">group</span>())  <span class="comment"># 123-456-789</span>
+
+<span class="comment"># Encontrar emails em um texto</span>
+<span class="variable">texto</span> = <span class="string">"Contatos: ana@email.com e joao@email.com"</span>
+<span class="variable">emails</span> = <span class="variable">re</span>.<span class="function">findall</span>(<span class="string">r"\w+@\w+\.\w+"</span>, <span class="variable">texto</span>)
+<span class="function">print</span>(<span class="variable">emails</span>)  <span class="comment"># ['ana@email.com', 'joao@email.com']</span></code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Decoradores
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Decoradores - como embrulhos mágicos para funções!</span>
+
+<span class="keyword">def</span> <span class="function">falar_alto</span>(<span class="variable">funcao</span>):
+    <span class="keyword">def</span> <span class="function">wrapper</span>():
+        <span class="variable">resultado</span> = <span class="variable">funcao</span>()
+        <span class="keyword">return</span> <span class="variable">resultado</span>.<span class="function">upper</span>()
+    <span class="keyword">return</span> <span class="variable">wrapper</span>
+
+<span class="comment"># Usar o decorador</span>
+@<span class="function">falar_alto</span>
+<span class="keyword">def</span> <span class="function">dizer_oi</span>():
+    <span class="keyword">return</span> <span class="string">"olá, mundo!"</span>
+
+<span class="function">print</span>(<span class="function">dizer_oi</span>())  <span class="comment"># OLÁ, MUNDO!</span></code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Funções Lambda
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Funções Lambda - funções pequenas e rápidas!</span>
+
+<span class="comment"># Função normal</span>
+<span class="keyword">def</span> <span class="function">dobrar</span>(<span class="variable">x</span>):
+    <span class="keyword">return</span> <span class="variable">x</span> * <span class="number">2</span>
+
+<span class="comment"># Mesma função como lambda</span>
+<span class="variable">dobrar</span> = <span class="keyword">lambda</span> <span class="variable">x</span>: <span class="variable">x</span> * <span class="number">2</span>
+
+<span class="comment"># Usar com map para dobrar todos os números</span>
+<span class="variable">numeros</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]
+<span class="variable">dobrados</span> = <span class="function">list</span>(<span class="function">map</span>(<span class="keyword">lambda</span> <span class="variable">x</span>: <span class="variable">x</span> * <span class="number">2</span>, <span class="variable">numeros</span>))
+<span class="function">print</span>(<span class="variable">dobrados</span>)  <span class="comment"># [2, 4, 6, 8]</span>
+
+<span class="comment"># Filtrar números pares</span>
+<span class="variable">pares</span> = <span class="function">list</span>(<span class="function">filter</span>(<span class="keyword">lambda</span> <span class="variable">x</span>: <span class="variable">x</span> % <span class="number">2</span> == <span class="number">0</span>, <span class="variable">numeros</span>))
+<span class="function">print</span>(<span class="variable">pares</span>)  <span class="comment"># [2, 4]</span></code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Geradores
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Geradores - criam valores um por um</span>
+
+<span class="keyword">def</span> <span class="function">contar_ate</span>(<span class="variable">n</span>):
+    <span class="variable">i</span> = <span class="number">1</span>
+    <span class="keyword">while</span> <span class="variable">i</span> <= <span class="variable">n</span>:
+        <span class="keyword">yield</span> <span class="variable">i</span>
+        <span class="variable">i</span> += <span class="number">1</span>
+
+<span class="comment"># Usar o gerador</span>
+<span class="keyword">for</span> <span class="variable">numero</span> <span class="keyword">in</span> <span class="function">contar_ate</span>(<span class="number">5</span>):
+    <span class="function">print</span>(<span class="variable">numero</span>)
+
+<span class="comment"># Gerador de tabuada</span>
+<span class="keyword">def</span> <span class="function">tabuada</span>(<span class="variable">n</span>):
+    <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="function">range</span>(<span class="number">1</span>, <span class="number">11</span>):
+        <span class="keyword">yield</span> <span class="string">f"{n} x {i} = {n * i}"</span>
+
+<span class="keyword">for</span> <span class="variable">linha</span> <span class="keyword">in</span> <span class="function">tabuada</span>(<span class="number">7</span>):
+    <span class="function">print</span>(<span class="variable">linha</span>)</code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Testes Automatizados
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Testes - verificar se o código funciona corretamente</span>
+
+<span class="keyword">import</span> unittest
+
+<span class="comment"># Função que vamos testar</span>
+<span class="keyword">def</span> <span class="function">somar</span>(<span class="variable">a</span>, <span class="variable">b</span>):
+    <span class="keyword">return</span> <span class="variable">a</span> + <span class="variable">b</span>
+
+<span class="comment"># Classe de teste</span>
+<span class="keyword">class</span> <span class="function">TesteSoma</span>(unittest.TestCase):
+    <span class="keyword">def</span> <span class="function">test_soma_positivos</span>(<span class="variable">self</span>):
+        <span class="variable">resultado</span> = <span class="function">somar</span>(<span class="number">2</span>, <span class="number">3</span>)
+        <span class="variable">self</span>.<span class="function">assertEqual</span>(<span class="variable">resultado</span>, <span class="number">5</span>)
+    
+    <span class="keyword">def</span> <span class="function">test_soma_negativos</span>(<span class="variable">self</span>):
+        <span class="variable">resultado</span> = <span class="function">somar</span>(-<span class="number">1</span>, -<span class="number">1</span>)
+        <span class="variable">self</span>.<span class="function">assertEqual</span>(<span class="variable">resultado</span>, -<span class="number">2</span>)
+
+<span class="comment"># Rodar os testes</span>
+<span class="keyword">if</span> <span class="variable">__name__</span> == <span class="string">'__main__'</span>:
+    <span class="function">unittest</span>.<span class="function">main</span>()</code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Threading
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Threading - fazer várias coisas ao mesmo tempo!</span>
+
+<span class="keyword">import</span> threading
+<span class="keyword">import</span> time
+
+<span class="keyword">def</span> <span class="function">fazer_tarefa</span>(<span class="variable">nome</span>, <span class="variable">tempo</span>):
+    <span class="function">print</span>(<span class="string">f"Começando tarefa {nome}"</span>)
+    <span class="function">time</span>.<span class="function">sleep</span>(<span class="variable">tempo</span>)  <span class="comment"># Simula trabalho</span>
+    <span class="function">print</span>(<span class="string">f"Terminando tarefa {nome}"</span>)
+
+<span class="comment"># Criar threads</span>
+<span class="variable">t1</span> = <span class="function">threading</span>.<span class="function">Thread</span>(<span class="variable">target</span>=<span class="variable">fazer_tarefa</span>, <span class="variable">args</span>=(<span class="string">"A"</span>, <span class="number">2</span>))
+<span class="variable">t2</span> = <span class="function">threading</span>.<span class="function">Thread</span>(<span class="variable">target</span>=<span class="variable">fazer_tarefa</span>, <span class="variable">args</span>=(<span class="string">"B"</span>, <span class="number">1</span>))
+
+<span class="comment"># Iniciar threads</span>
+<span class="variable">t1</span>.<span class="function">start</span>()
+<span class="variable">t2</span>.<span class="function">start</span>()
+
+<span class="comment"># Esperar threads terminarem</span>
+<span class="variable">t1</span>.<span class="function">join</span>()
+<span class="variable">t2</span>.<span class="function">join</span>()</code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Web Scraping
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Web Scraping - pegar informações de sites</span>
+
+<span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup
+<span class="keyword">import</span> requests
+
+<span class="comment"># Pegar conteúdo de uma página web</span>
+<span class="variable">url</span> = <span class="string">"https://exemplo.com"</span>
+<span class="variable">pagina</span> = <span class="function">requests</span>.<span class="function">get</span>(<span class="variable">url</span>)
+
+<span class="comment"># Criar o objeto BeautifulSoup</span>
+<span class="variable">soup</span> = <span class="function">BeautifulSoup</span>(<span class="variable">pagina</span>.<span class="property">content</span>, <span class="string">'html.parser'</span>)
+
+<span class="comment"># Encontrar elementos</span>
+<span class="variable">titulos</span> = <span class="variable">soup</span>.<span class="function">find_all</span>(<span class="string">'h1'</span>)
+<span class="keyword">for</span> <span class="variable">titulo</span> <span class="keyword">in</span> <span class="variable">titulos</span>:
+    <span class="function">print</span>(<span class="variable">titulo</span>.<span class="property">text</span>)</code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                APIs e Requests
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># APIs - conversar com outros programas na internet</span>
+
+<span class="keyword">import</span> requests
+
+<span class="comment"># Fazer uma requisição GET</span>
+<span class="variable">resposta</span> = <span class="function">requests</span>.<span class="function">get</span>(<span class="string">'https://api.exemplo.com/dados'</span>)
+
+<span class="comment"># Verificar se deu certo</span>
+<span class="keyword">if</span> <span class="variable">resposta</span>.<span class="property">status_code</span> == <span class="number">200</span>:
+    <span class="variable">dados</span> = <span class="variable">resposta</span>.<span class="function">json</span>()
+    <span class="function">print</span>(<span class="variable">dados</span>)
+
+<span class="comment"># Enviar dados (POST)</span>
+<span class="variable">novo_item</span> = {<span class="string">'nome'</span>: <span class="string">'Teste'</span>, <span class="string">'valor'</span>: <span class="number">42</span>}
+<span class="variable">resposta</span> = <span class="function">requests</span>.<span class="function">post</span>(<span class="string">'https://api.exemplo.com/criar'</span>, 
+                            <span class="variable">json</span>=<span class="variable">novo_item</span>)</code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Flask
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Flask - criar sites e APIs</span>
+
+<span class="keyword">from</span> flask <span class="keyword">import</span> Flask, jsonify
+
+<span class="comment"># Criar aplicação</span>
+<span class="variable">app</span> = <span class="function">Flask</span>(<span class="string">'minha_api'</span>)
+
+<span class="comment"># Criar uma rota</span>
+@<span class="variable">app</span>.<span class="function">route</span>(<span class="string">'/'</span>)
+<span class="keyword">def</span> <span class="function">home</span>():
+    <span class="keyword">return</span> <span class="string">"Bem-vindo à minha API!"</span>
+
+@<span class="variable">app</span>.<span class="function">route</span>(<span class="string">'/dados'</span>)
+<span class="keyword">def</span> <span class="function">get_dados</span>():
+    <span class="variable">dados</span> = {
+        <span class="string">"nome"</span>: <span class="string">"Python"</span>,
+        <span class="string">"tipo"</span>: <span class="string">"Linguagem"</span>
+    }
+    <span class="keyword">return</span> <span class="function">jsonify</span>(<span class="variable">dados</span>)
+
+<span class="comment"># Rodar o servidor</span>
+<span class="keyword">if</span> <span class="variable">__name__</span> == <span class="string">'__main__'</span>:
+    <span class="variable">app</span>.<span class="function">run</span>(<span class="variable">debug</span>=<span class="keyword">True</span>)</code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Banco de Dados SQLite
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># SQLite - guardar dados em um banco</span>
+
+<span class="keyword">import</span> sqlite3
+
+<span class="comment"># Conectar ao banco</span>
+<span class="variable">conn</span> = <span class="function">sqlite3</span>.<span class="function">connect</span>(<span class="string">'dados.db'</span>)
+<span class="variable">cursor</span> = <span class="variable">conn</span>.<span class="function">cursor</span>()
+
+<span class="comment"># Criar uma tabela</span>
+<span class="variable">cursor</span>.<span class="function">execute</span>(<span class="string">'''
+CREATE TABLE IF NOT EXISTS usuarios (
+    id INTEGER PRIMARY KEY,
+    nome TEXT,
+    idade INTEGER
+)'''</span>)
+
+<span class="comment"># Inserir dados</span>
+<span class="variable">cursor</span>.<span class="function">execute</span>(<span class="string">'INSERT INTO usuarios (nome, idade) VALUES (?, ?)'</span>,
+                 (<span class="string">'Ana'</span>, <span class="number">25</span>))
+
+<span class="comment"># Salvar mudanças</span>
+<span class="variable">conn</span>.<span class="function">commit</span>()
+
+<span class="comment"># Buscar dados</span>
+<span class="variable">cursor</span>.<span class="function">execute</span>(<span class="string">'SELECT * FROM usuarios'</span>)
+<span class="variable">usuarios</span> = <span class="variable">cursor</span>.<span class="function">fetchall</span>()
+
+<span class="comment"># Fechar conexão</span>
+<span class="variable">conn</span>.<span class="function">close</span>()</code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Comandos Git
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Git - controle de versão do código</span>
+
+<span class="comment"># Iniciar um repositório</span>
+$ git init
+
+<span class="comment"># Ver status das mudanças</span>
+$ git status
+
+<span class="comment"># Adicionar arquivos</span>
+$ git add arquivo.py
+$ git add .  <span class="comment"># adiciona todos os arquivos</span>
+
+<span class="comment"># Criar um commit</span>
+$ git commit -m "Primeira versão do código"
+
+<span class="comment"># Ver histórico</span>
+$ git log
+
+<span class="comment"># Criar e mudar de branch</span>
+$ git branch nova-funcionalidade
+$ git checkout nova-funcionalidade</code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Machine Learning
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Machine Learning - ensinar o computador a aprender!</span>
+
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split
+<span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LinearRegression
+
+<span class="comment"># Carregar dados</span>
+<span class="variable">dados</span> = <span class="function">pd</span>.<span class="function">read_csv</span>(<span class="string">'dados.csv'</span>)
+
+<span class="comment"># Preparar dados</span>
+<span class="variable">X</span> = <span class="variable">dados</span>[[<span class="string">'tamanho'</span>, <span class="string">'quartos'</span>]]
+<span class="variable">y</span> = <span class="variable">dados</span>[<span class="string">'preco'</span>]
+
+<span class="comment"># Dividir em treino e teste</span>
+<span class="variable">X_treino</span>, <span class="variable">X_teste</span>, <span class="variable">y_treino</span>, <span class="variable">y_teste</span> = <span class="function">train_test_split</span>(<span class="variable">X</span>, <span class="variable">y</span>)
+
+<span class="comment"># Treinar modelo</span>
+<span class="variable">modelo</span> = <span class="function">LinearRegression</span>()
+<span class="variable">modelo</span>.<span class="function">fit</span>(<span class="variable">X_treino</span>, <span class="variable">y_treino</span>)
+
+<span class="comment"># Fazer previsões</span>
+<span class="variable">previsoes</span> = <span class="variable">modelo</span>.<span class="function">predict</span>(<span class="variable">X_teste</span>)</code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Context Managers
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Context Managers - gerenciar recursos com segurança</span>
+
+<span class="keyword">class</span> <span class="function">MinhaConexao</span>:
+    <span class="keyword">def</span> <span class="function">__enter__</span>(<span class="variable">self</span>):
+        <span class="function">print</span>(<span class="string">"Abrindo conexão..."</span>)
+        <span class="keyword">return</span> <span class="variable">self</span>
+    
+    <span class="keyword">def</span> <span class="function">__exit__</span>(<span class="variable">self</span>, <span class="variable">type</span>, <span class="variable">value</span>, <span class="variable">traceback</span>):
+        <span class="function">print</span>(<span class="string">"Fechando conexão..."</span>)
+
+<span class="comment"># Usar o context manager</span>
+<span class="keyword">with</span> <span class="function">MinhaConexao</span>() <span class="keyword">as</span> <span class="variable">conn</span>:
+    <span class="function">print</span>(<span class="string">"Fazendo algo com a conexão"</span>)
+
+<span class="comment"># Context manager para arquivo</span>
+<span class="keyword">with</span> <span class="function">open</span>(<span class="string">'arquivo.txt'</span>, <span class="string">'w'</span>) <span class="keyword">as</span> <span class="variable">f</span>:
+    <span class="variable">f</span>.<span class="function">write</span>(<span class="string">"Olá, mundo!"</span>)</code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Subprocess
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Subprocess - executar comandos do sistema</span>
+
+<span class="keyword">import</span> subprocess
+
+<span class="comment"># Executar um comando simples</span>
+<span class="variable">resultado</span> = <span class="function">subprocess</span>.<span class="function">run</span>([<span class="string">'ls'</span>, <span class="string">'-l'</span>], 
+                              <span class="variable">capture_output</span>=<span class="keyword">True</span>, 
+                              <span class="variable">text</span>=<span class="keyword">True</span>)
+
+<span class="function">print</span>(<span class="variable">resultado</span>.<span class="property">stdout</span>)
+
+<span class="comment"># Executar comando com pipe</span>
+<span class="variable">processo</span> = <span class="function">subprocess</span>.<span class="function">Popen</span>([<span class="string">'echo'</span>, <span class="string">'Olá!'</span>],
+                              <span class="variable">stdout</span>=<span class="function">subprocess</span>.<span class="property">PIPE</span>,
+                              <span class="variable">text</span>=<span class="keyword">True</span>)
+
+<span class="variable">saida</span>, <span class="variable">erro</span> = <span class="variable">processo</span>.<span class="function">communicate</span>()</code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Itertools
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Itertools - ferramentas para trabalhar com iterações</span>
+
+<span class="keyword">from</span> itertools <span class="keyword">import</span> count, cycle, repeat, combinations
+
+<span class="comment"># Contador infinito</span>
+<span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="function">count</span>(<span class="number">1</span>):
+    <span class="keyword">if</span> <span class="variable">i</span> > <span class="number">5</span>:
+        <span class="keyword">break</span>
+    <span class="function">print</span>(<span class="variable">i</span>)
+
+<span class="comment"># Ciclo de elementos</span>
+<span class="variable">cores</span> = <span class="function">cycle</span>([<span class="string">'vermelho'</span>, <span class="string">'verde'</span>, <span class="string">'azul'</span>])
+<span class="keyword">for</span> <span class="variable">_</span> <span class="keyword">in</span> <span class="function">range</span>(<span class="number">6</span>):
+    <span class="function">print</span>(<span class="function">next</span>(<span class="variable">cores</span>))
+
+<span class="comment"># Combinações</span>
+<span class="variable">letras</span> = [<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>]
+<span class="keyword">for</span> <span class="variable">combo</span> <span class="keyword">in</span> <span class="function">combinations</span>(<span class="variable">letras</span>, <span class="number">2</span>):
+    <span class="function">print</span>(<span class="variable">combo</span>)</code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Herança
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Herança - classes que herdam características de outras</span>
+
+<span class="keyword">class</span> <span class="function">Animal</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(<span class="variable">self</span>, <span class="variable">nome</span>):
+        <span class="variable">self</span>.<span class="property">nome</span> = <span class="variable">nome</span>
+    
+    <span class="keyword">def</span> <span class="function">fazer_som</span>(<span class="variable">self</span>):
+        <span class="function">print</span>(<span class="string">"Som genérico de animal"</span>)
+
+<span class="keyword">class</span> <span class="function">Gato</span>(<span class="function">Animal</span>):
+    <span class="keyword">def</span> <span class="function">fazer_som</span>(<span class="variable">self</span>):
+        <span class="function">print</span>(<span class="string">"Miau!"</span>)
+
+<span class="keyword">class</span> <span class="function">Cachorro</span>(<span class="function">Animal</span>):
+    <span class="keyword">def</span> <span class="function">fazer_som</span>(<span class="variable">self</span>):
+        <span class="function">print</span>(<span class="string">"Au au!"</span>)
+
+<span class="comment"># Criar animais</span>
+<span class="variable">meu_gato</span> = <span class="function">Gato</span>(<span class="string">"Frajola"</span>)
+<span class="variable">meu_cachorro</span> = <span class="function">Cachorro</span>(<span class="string">"Rex"</span>)
+
+<span class="variable">meu_gato</span>.<span class="function">fazer_som</span>()  <span class="comment"># Miau!</span>
+<span class="variable">meu_cachorro</span>.<span class="function">fazer_som</span>()  <span class="comment"># Au au!</span></code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Métodos Especiais
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Métodos especiais - dão superpoderes às classes!</span>
+
+<span class="keyword">class</span> <span class="function">Carta</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(<span class="variable">self</span>, <span class="variable">valor</span>, <span class="variable">naipe</span>):
+        <span class="variable">self</span>.<span class="property">valor</span> = <span class="variable">valor</span>
+        <span class="variable">self</span>.<span class="property">naipe</span> = <span class="variable">naipe</span>
+    
+    <span class="keyword">def</span> <span class="function">__str__</span>(<span class="variable">self</span>):
+        <span class="keyword">return</span> <span class="string">f"{self.valor} de {self.naipe}"</span>
+    
+    <span class="keyword">def</span> <span class="function">__lt__</span>(<span class="variable">self</span>, <span class="variable">outra</span>):
+        <span class="variable">valores</span> = {<span class="string">'J'</span>: <span class="number">11</span>, <span class="string">'Q'</span>: <span class="number">12</span>, <span class="string">'K'</span>: <span class="number">13</span>, <span class="string">'A'</span>: <span class="number">14</span>}
+        <span class="variable">v1</span> = <span class="variable">valores</span>.<span class="function">get</span>(<span class="variable">self</span>.<span class="property">valor</span>, <span class="function">int</span>(<span class="variable">self</span>.<span class="property">valor</span>))
+        <span class="variable">v2</span> = <span class="variable">valores</span>.<span class="function">get</span>(<span class="variable">outra</span>.<span class="property">valor</span>, <span class="function">int</span>(<span class="variable">outra</span>.<span class="property">valor</span>))
+        <span class="keyword">return</span> <span class="variable">v1</span> < <span class="variable">v2</span>
+
+<span class="comment"># Usar a classe</span>
+<span class="variable">carta1</span> = <span class="function">Carta</span>(<span class="string">'A'</span>, <span class="string">'♠'</span>)
+<span class="variable">carta2</span> = <span class="function">Carta</span>(<span class="string">'7'</span>, <span class="string">'♥'</span>)
+
+<span class="function">print</span>(<span class="variable">carta1</span>)  <span class="comment"># A de ♠</span>
+<span class="function">print</span>(<span class="variable">carta2</span> < <span class="variable">carta1</span>)  <span class="comment"># True</span></code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Decoradores Avançados
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Decoradores com parâmetros</span>
+
+<span class="keyword">def</span> <span class="function">repetir</span>(<span class="variable">vezes</span>):
+    <span class="keyword">def</span> <span class="function">decorador</span>(<span class="variable">func</span>):
+        <span class="keyword">def</span> <span class="function">wrapper</span>(*<span class="variable">args</span>, **<span class="variable">kwargs</span>):
+            <span class="keyword">for</span> <span class="variable">_</span> <span class="keyword">in</span> <span class="function">range</span>(<span class="variable">vezes</span>):
+                <span class="variable">resultado</span> = <span class="variable">func</span>(*<span class="variable">args</span>, **<span class="variable">kwargs</span>)
+            <span class="keyword">return</span> <span class="variable">resultado</span>
+        <span class="keyword">return</span> <span class="variable">wrapper</span>
+    <span class="keyword">return</span> <span class="variable">decorador</span>
+
+<span class="comment"># Usar o decorador</span>
+@<span class="function">repetir</span>(<span class="number">3</span>)
+<span class="keyword">def</span> <span class="function">saudacao</span>(<span class="variable">nome</span>):
+    <span class="function">print</span>(<span class="string">f"Olá, {nome}!"</span>)
+
+<span class="function">saudacao</span>(<span class="string">"Maria"</span>)  <span class="comment"># Imprime 3 vezes</span></code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Geradores Avançados
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Geradores com pipeline</span>
+
+<span class="keyword">def</span> <span class="function">numeros</span>():
+    <span class="variable">n</span> = <span class="number">0</span>
+    <span class="keyword">while</span> <span class="keyword">True</span>:
+        <span class="keyword">yield</span> <span class="variable">n</span>
+        <span class="variable">n</span> += <span class="number">1</span>
+
+<span class="keyword">def</span> <span class="function">pares</span>(<span class="variable">sequencia</span>):
+    <span class="keyword">for</span> <span class="variable">num</span> <span class="keyword">in</span> <span class="variable">sequencia</span>:
+        <span class="keyword">if</span> <span class="variable">num</span> % <span class="number">2</span> == <span class="number">0</span>:
+            <span class="keyword">yield</span> <span class="variable">num</span>
+
+<span class="keyword">def</span> <span class="function">multiplica_por</span>(<span class="variable">sequencia</span>, <span class="variable">n</span>):
+    <span class="keyword">for</span> <span class="variable">num</span> <span class="keyword">in</span> <span class="variable">sequencia</span>:
+        <span class="keyword">yield</span> <span class="variable">num</span> * <span class="variable">n</span>
+
+<span class="comment"># Usar os geradores em pipeline</span>
+<span class="variable">nums</span> = <span class="function">numeros</span>()  <span class="comment"># Gera números infinitos</span>
+<span class="variable">nums_pares</span> = <span class="function">pares</span>(<span class="variable">nums</span>)  <span class="comment"># Filtra só os pares</span>
+<span class="variable">nums_dobro</span> = <span class="function">multiplica_por</span>(<span class="variable">nums_pares</span>, <span class="number">2</span>)  <span class="comment"># Dobra cada número</span>
+
+<span class="comment"># Pegar os primeiros 5 resultados</span>
+<span class="keyword">for</span> <span class="variable">_</span>, <span class="variable">num</span> <span class="keyword">in</span> <span class="function">zip</span>(<span class="function">range</span>(<span class="number">5</span>), <span class="variable">nums_dobro</span>):
+    <span class="function">print</span>(<span class="variable">num</span>)</code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                FastAPI
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># FastAPI - criar APIs rápidas e modernas</span>
+
+<span class="keyword">from</span> fastapi <span class="keyword">import</span> FastAPI
+<span class="keyword">from</span> pydantic <span class="keyword">import</span> BaseModel
+
+<span class="variable">app</span> = <span class="function">FastAPI</span>()
+
+<span class="keyword">class</span> <span class="function">Item</span>(BaseModel):
+    <span class="variable">nome</span>: <span class="variable">str</span>
+    <span class="variable">preco</span>: <span class="variable">float</span>
+
+<span class="comment"># Rota GET simples</span>
+@<span class="variable">app</span>.<span class="function">get</span>(<span class="string">"/"</span>)
+<span class="keyword">def</span> <span class="function">ler_raiz</span>():
+    <span class="keyword">return</span> {<span class="string">"mensagem"</span>: <span class="string">"Olá Mundo!"</span>}
+
+<span class="comment"># Rota POST com validação</span>
+@<span class="variable">app</span>.<span class="function">post</span>(<span class="string">"/items/"</span>)
+<span class="keyword">def</span> <span class="function">criar_item</span>(<span class="variable">item</span>: Item):
+    <span class="keyword">return</span> <span class="variable">item</span></code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Pandas
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Pandas - trabalhar com dados em tabelas</span>
+
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+
+<span class="comment"># Criar um DataFrame</span>
+<span class="variable">dados</span> = {
+    <span class="string">'nome'</span>: [<span class="string">'Ana'</span>, <span class="string">'João'</span>, <span class="string">'Maria'</span>],
+    <span class="string">'idade'</span>: [<span class="number">25</span>, <span class="number">30</span>, <span class="number">28</span>],
+    <span class="string">'cidade'</span>: [<span class="string">'SP'</span>, <span class="string">'RJ'</span>, <span class="string">'MG'</span>]
+}
+<span class="variable">df</span> = <span class="function">pd</span>.<span class="function">DataFrame</span>(<span class="variable">dados</span>)
+
+<span class="comment"># Filtrar dados</span>
+<span class="variable">jovens</span> = <span class="variable">df</span>[<span class="variable">df</span>[<span class="string">'idade'</span>] < <span class="number">30</span>]
+
+<span class="comment"># Agrupar e calcular média</span>
+<span class="variable">media_idade</span> = <span class="variable">df</span>.<span class="function">groupby</span>(<span class="string">'cidade'</span>)[<span class="string">'idade'</span>].<span class="function">mean</span>()</code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Numpy
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Numpy - trabalhar com arrays e matemática</span>
+
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+
+<span class="comment"># Criar arrays</span>
+<span class="variable">arr1</span> = <span class="function">np</span>.<span class="function">array</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])
+<span class="variable">arr2</span> = <span class="function">np</span>.<span class="function">zeros</span>(<span class="number">5</span>)
+<span class="variable">arr3</span> = <span class="function">np</span>.<span class="function">random</span>.<span class="function">rand</span>(<span class="number">5</span>)
+
+<span class="comment"># Operações com arrays</span>
+<span class="variable">soma</span> = <span class="variable">arr1</span> + <span class="number">10</span>  <span class="comment"># Soma 10 a cada elemento</span>
+<span class="variable">media</span> = <span class="function">np</span>.<span class="function">mean</span>(<span class="variable">arr1</span>)  <span class="comment"># Calcula média</span>
+<span class="variable">max_val</span> = <span class="function">np</span>.<span class="function">max</span>(<span class="variable">arr1</span>)  <span class="comment"># Encontra maior valor</span></code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Asyncio
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Asyncio - programação assíncrona</span>
+
+<span class="keyword">import</span> asyncio
+
+<span class="keyword">async</span> <span class="keyword">def</span> <span class="function">fazer_cafe</span>():
+    <span class="function">print</span>(<span class="string">"Começando a fazer café..."</span>)
+    <span class="keyword">await</span> <span class="function">asyncio</span>.<span class="function">sleep</span>(<span class="number">2</span>)  <span class="comment"># Simula espera</span>
+    <span class="keyword">return</span> <span class="string">"Café pronto!"</span>
+
+<span class="keyword">async</span> <span class="keyword">def</span> <span class="function">fazer_torrada</span>():
+    <span class="function">print</span>(<span class="string">"Fazendo torrada..."</span>)
+    <span class="keyword">await</span> <span class="function">asyncio</span>.<span class="function">sleep</span>(<span class="number">1</span>)
+    <span class="keyword">return</span> <span class="string">"Torrada pronta!"</span>
+
+<span class="keyword">async</span> <span class="keyword">def</span> <span class="function">cafe_da_manha</span>():
+    <span class="variable">cafe</span>, <span class="variable">torrada</span> = <span class="keyword">await</span> <span class="function">asyncio</span>.<span class="function">gather</span>(
+        <span class="function">fazer_cafe</span>(),
+        <span class="function">fazer_torrada</span>()
+    )
+    <span class="function">print</span>(<span class="variable">cafe</span>, <span class="variable">torrada</span>)
+
+<span class="comment"># Rodar o programa assíncrono</span>
+<span class="function">asyncio</span>.<span class="function">run</span>(<span class="function">cafe_da_manha</span>())</code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Sockets
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Sockets - comunicação entre computadores</span>
+
+<span class="keyword">import</span> socket
+
+<span class="comment"># Criar um servidor</span>
+<span class="variable">servidor</span> = <span class="function">socket</span>.<span class="function">socket</span>()
+<span class="variable">servidor</span>.<span class="function">bind</span>((<span class="string">'localhost'</span>, <span class="number">12345</span>))
+<span class="variable">servidor</span>.<span class="function">listen</span>(<span class="number">5</span>)
+
+<span class="keyword">while</span> <span class="keyword">True</span>:
+    <span class="variable">cliente</span>, <span class="variable">endereco</span> = <span class="variable">servidor</span>.<span class="function">accept</span>()
+    <span class="variable">dados</span> = <span class="variable">cliente</span>.<span class="function">recv</span>(<span class="number">1024</span>)
+    <span class="function">print</span>(<span class="string">f"Recebido: {dados.decode()}"</span>)
+    <span class="variable">cliente</span>.<span class="function">send</span>(<span class="string">"Mensagem recebida!"</span>.<span class="function">encode</span>())
+    <span class="variable">cliente</span>.<span class="function">close</span>()</code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Input e Output
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Como receber dados do usuário</span>
+
+<span class="comment"># Pedir um texto</span>
+<span class="variable">nome</span> = <span class="function">input</span>(<span class="string">"Qual é seu nome? "</span>)
+<span class="function">print</span>(<span class="string">f"Olá, {nome}!"</span>)
+
+<span class="comment"># Pedir um número</span>
+<span class="variable">idade</span> = <span class="function">int</span>(<span class="function">input</span>(<span class="string">"Quantos anos você tem? "</span>))
+<span class="function">print</span>(<span class="string">f"Daqui a 5 anos você terá {idade + 5} anos"</span>)</code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Tratamento de Erros Básico
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Como lidar com erros simples</span>
+
+<span class="keyword">try</span>:
+    <span class="variable">numero</span> = <span class="function">int</span>(<span class="function">input</span>(<span class="string">"Digite um número: "</span>))
+    <span class="variable">resultado</span> = <span class="number">10</span> / <span class="variable">numero</span>
+<span class="keyword">except</span> <span class="function">ValueError</span>:
+    <span class="function">print</span>(<span class="string">"Isso não é um número!"</span>)
+<span class="keyword">except</span> <span class="function">ZeroDivisionError</span>:
+    <span class="function">print</span>(<span class="string">"Não posso dividir por zero!"</span>)</code></pre>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                Arquivos Simples
+                <button class="copy-button" title="Copiar código">
+                    <i class="far fa-copy"></i>
+                </button>
+            </h2>
+            <pre><code><span class="comment"># Trabalhar com arquivos de texto</span>
+
+<span class="comment"># Escrever em um arquivo</span>
+<span class="keyword">with</span> <span class="function">open</span>(<span class="string">'notas.txt'</span>, <span class="string">'w'</span>) <span class="keyword">as</span> <span class="variable">arquivo</span>:
+    <span class="variable">arquivo</span>.<span class="function">write</span>(<span class="string">"Primeira linha\n"</span>)
+    <span class="variable">arquivo</span>.<span class="function">write</span>(<span class="string">"Segunda linha\n"</span>)
+
+<span class="comment"># Ler de um arquivo</span>
+<span class="keyword">with</span> <span class="function">open</span>(<span class="string">'notas.txt'</span>, <span class="string">'r'</span>) <span class="keyword">as</span> <span class="variable">arquivo</span>:
+    <span class="variable">conteudo</span> = <span class="variable">arquivo</span>.<span class="function">read</span>()
+    <span class="function">print</span>(<span class="variable">conteudo</span>)</code></pre>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="index.html" class="logo">
+                        <span>S</span>
+                    </a>
+                    <p class="footer-description">
+                        Compartilhando conhecimento e técnicas de segurança cibernética para um mundo digital mais seguro.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-title">Contato</h3>
+                    <ul>
+                        <li><a href="mailto:contato@shadowmonarch.com"><i class="fas fa-envelope"></i> contato@shadowmonarch.com</a></li>
+                        <li><a href="tel:+5511999999999"><i class="fas fa-phone"></i> +55 (11) 99999-9999</a></li>
+                        <li><a href="https://maps.google.com/?q=São+Paulo,Brasil" target="_blank"><i class="fas fa-map-marker-alt"></i> São Paulo, Brasil</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Shadow Monarch. Todos os direitos reservados.</p>
+                <a href="#" class="back-to-top" aria-label="Voltar ao topo"><i class="fas fa-arrow-up"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Adicionar funcionalidade aos botões de cópia
+        document.querySelectorAll('.copy-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const codeBlock = button.closest('.section').querySelector('code');
+                const textToCopy = codeBlock.innerText;
+                
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    // Mudar ícone temporariamente para indicar sucesso
+                    const icon = button.querySelector('i');
+                    icon.classList.remove('fa-copy');
+                    icon.classList.add('fa-check');
+                    
+                    setTimeout(() => {
+                        icon.classList.remove('fa-check');
+                        icon.classList.add('fa-copy');
+                    }, 2000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

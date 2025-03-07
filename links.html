@@ -50,13 +50,18 @@
             backdrop-filter: blur(10px);
         }
         
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        header .container {
+            width: 100%;
             max-width: 1400px;
             margin: 0 auto;
             padding: 0 20px;
+        }
+        
+        header nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
         }
         
         .logo {
@@ -68,9 +73,16 @@
             align-items: center;
         }
         
+        .logo span {
+            color: var(--accent-color);
+            margin-right: 5px;
+            font-size: 28px;
+        }
+        
         .nav-links {
             display: flex;
             gap: 30px;
+            align-items: center;
         }
         
         .nav-links a {
@@ -81,7 +93,7 @@
             position: relative;
         }
         
-        .nav-links a:hover {
+        .nav-links a:hover, .nav-links a.active {
             color: var(--accent-color);
         }
         
@@ -96,7 +108,7 @@
             transition: width 0.3s ease;
         }
         
-        .nav-links a:hover::after {
+        .nav-links a:hover::after, .nav-links a.active::after {
             width: 100%;
         }
         
@@ -344,63 +356,74 @@
 </head>
 <body>
     <header>
-        <nav>
-            <a href="index.html" class="logo"></a>
-            <div class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="links.html">Links</a>
-                <a href="artigos.html">Artigos</a>
-            </div>
-            <div class="auth-buttons">
-            </div>
-        </nav>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <span></span>
+                </a>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="links.html" class="active">Links</a>
+                    <a href="artigos.html">Artigos</a>
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-trigger">Cheatsheets <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="python.html">Python</a>
+                            <a href="bash.html">Bash</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="auth-buttons">
+                </div>
+            </nav>
+        </div>
     </header>
     
     <section class="links-section">
         <div class="container">
             <div class="section-title">
-                <h1>Links.</h1>
-                <p>@shadowmonarch</p>
+                <h1>Itens do meu setup</h1>
+                <p>Recomendados</p>
             </div>
             
             <div class="product-links">
                 <!-- Produto 1 -->
-                <a href="https://amzn.to/baseus-display-turbo" class="product-link" target="_blank">
+                <a href="https://www.google.com/search?q=Mouse+sem+fio+Logitech+MX+Master+3" class="product-link" target="_blank">
                     <div class="product-image">
-                        <img src="https://sindilojas-sp.org.br/wp-content/uploads/2020/07/Mix-de-produto.gif" alt="Baseus Display Turbo">
+                        <img src="https://cdn.shoppub.io/cdn-cgi/image/w=600,h=600,q=80,f=auto/oficinadosbits/media/uploads/produtos/foto/wkakhdwe/file.png" alt="Mouse sem fio Logitech MX Master 3S">
                     </div>
                     <div class="product-info">
                         <div>
-                            <h2 class="product-title">Baseus Display Turbo</h2>
-                            <p class="product-description">Power Bank 10 mil mAh</p>
+                            <h2 class="product-title">Mouse sem fio Logitech MX Master 3S</h2>
+                            <p class="product-description">Mouse sem fio</p>
                         </div>
                         <span class="product-cta">Clique e saiba mais</span>
                     </div>
                 </a>
                 
                 <!-- Produto 2 -->
-                <a href="https://amzn.to/funko-stranger-things" class="product-link" target="_blank">
+                <a href="https://www.google.com/search?q=teclado+machenike+k600g" class="product-link" target="_blank">
                     <div class="product-image">
-                        <img src="https://radio93fm.com.br/wp-content/uploads/2019/02/produto.png" alt="Pop Funko Stranger Things">
+                        <img src="https://global.machenike.com/cdn/shop/products/K600_-3.jpg?v=1661592323&width=800" alt="Teclado Machenike K600G">
                     </div>
                     <div class="product-info">
                         <div>
-                            <h2 class="product-title">Pop Funko Stranger Things</h2>
-                            <p class="product-description">Vecna with creel house</p>
+                            <h2 class="product-title">Teclado Machenike K600G</h2>
+                            <p class="product-description">Teclado sem fio Gamer RGB</p>
                         </div>
                         <span class="product-cta">Clique e saiba mais</span>
                     </div>
                 </a>
                 
                 <!-- Produto 3 -->
-                <a href="https://amzn.to/miyoo-mini" class="product-link" target="_blank">
+                <a href="https://global.machenike.com/cdn/shop/products/K600_-3.jpg?v=1661592323&width=800" class="product-link" target="_blank">
                     <div class="product-image">
-                        <img src="https://neilpatel.com/wp-content/uploads/2019/07/vendas-de-produtos-digitais.jpeg" alt="Miyoo Mini">
+                        <img src="https://http2.mlstatic.com/D_NQ_NP_637252-MLA72002578864_102023-O.webp" alt="Controle sem Fio Machenike G5 Pro">
                     </div>
                     <div class="product-info">
                         <div>
-                            <h2 class="product-title">Miyoo Mini</h2>
-                            <p class="product-description">O melhor console portátil</p>
+                            <h2 class="product-title">Controle sem Fio Machenike G5 Pro</h2>
+                            <p class="product-description">Controle sem fio</p>
                         </div>
                         <span class="product-cta">Clique e saiba mais</span>
                     </div>
@@ -414,7 +437,7 @@
             <div class="footer-content">
                 <div class="footer-logo">
                     <a href="index.html" class="logo">
-                        <span>S</span>HADOW MONARCH
+                        <span></span>
                     </a>
                     <p class="footer-description">
                         Compartilhando conhecimento e técnicas de segurança cibernética para um mundo digital mais seguro.

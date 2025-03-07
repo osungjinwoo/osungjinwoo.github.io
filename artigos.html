@@ -394,11 +394,20 @@
     <header>
         <div class="container">
             <nav>
-                <a href="index.html" class="logo"></a>
+                <a href="index.html" class="logo">
+                    <span></span>
+                </a>
                 <div class="nav-links">
                     <a href="index.html">Home</a>
                     <a href="links.html">Links</a>
                     <a href="artigos.html" class="active">Artigos</a>
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-trigger">Cheatsheets <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="python.html">Python</a>
+                            <a href="bash.html">Bash</a>
+                        </div>
+                    </div>
                 </div>
                 <div class="auth-buttons">
                 </div>
@@ -433,7 +442,7 @@
             <div class="footer-content">
                 <div class="footer-logo">
                     <a href="index.html" class="logo">
-                        <span>S</span>HADOW MONARCH
+                        <span>S</span>
                     </a>
                     <p class="footer-description">
                         Compartilhando conhecimento e técnicas de segurança cibernética para um mundo digital mais seguro.
@@ -487,24 +496,111 @@
         const footnotes = {};
         let footnoteIndex = 0;
 
+        // Personalizar o renderizador para suportar os blocos de prompt do Jekyll
         renderer.paragraph = function(text) {
             // Processar blocos de prompt (info, tip, warning, danger)
-            if (text.startsWith('{: .prompt-info }')) {
+            if (text.includes('{: .prompt-info }')) {
                 return `<div class="prompt-info">${text.replace('{: .prompt-info }', '')}</div>`;
-            } else if (text.startsWith('{: .prompt-tip }')) {
+            } else if (text.includes('{: .prompt-tip }')) {
                 return `<div class="prompt-tip">${text.replace('{: .prompt-tip }', '')}</div>`;
-            } else if (text.startsWith('{: .prompt-warning }')) {
+            } else if (text.includes('{: .prompt-warning }')) {
                 return `<div class="prompt-warning">${text.replace('{: .prompt-warning }', '')}</div>`;
-            } else if (text.startsWith('{: .prompt-danger }')) {
+            } else if (text.includes('{: .prompt-danger }')) {
                 return `<div class="prompt-danger">${text.replace('{: .prompt-danger }', '')}</div>`;
             }
 
             return `<p>${text}</p>`;
         };
 
-        // Variáveis globais
-        let loadedArticles = [];
-        const categories = new Set(['all']);
+        // Personalizar o renderizador para links
+        renderer.link = function(href, title, text) {
+            // Converter links relativos para o formato correto
+            if (href && href.startsWith('/posts/')) {
+                href = href.replace('/posts/', '');
+                // Remover a extensão .md se existir
+                href = href.replace('.md', '');
+                // Construir o link para o artigo
+                href = `?article=${href}`;
+            }
+            
+            const titleAttr = title ? `title="${title}"` : '';
+            return `<a href="${href}" ${titleAttr}>${text}</a>`;
+        };
+
+        // Personalizar o renderizador para imagens
+        renderer.image = function(href, title, text) {
+            // Corrigir caminhos de imagem relativos
+            if (href && !href.startsWith('http') && !href.startsWith('/')) {
+                // Assumir que a imagem está na pasta img
+                if (!href.startsWith('img/')) {
+                    href = `img/${href}`;
+                }
+            }
+            
+            const titleAttr = title ? `title="${title}"` : '';
+            return `<img src="${href}" alt="${text}" ${titleAttr}>`;
+        };
+
+        // Função para extrair metadados do markdown (front matter)
+        function extractFrontMatter(markdown) {
+            const frontMatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n/;
+            const match = markdown.match(frontMatterRegex);
+
+            if (!match) return { content: markdown, metadata: {} };
+
+            const frontMatter = match[1];
+            const content = markdown.slice(match[0].length);
+            const metadata = {};
+
+            // Processar o front matter linha por linha
+            const lines = frontMatter.split('\n');
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line) continue;
+
+                // Verificar se a linha contém um par chave-valor
+                const colonIndex = line.indexOf(':');
+                if (colonIndex !== -1) {
+                    const key = line.slice(0, colonIndex).trim();
+                    let value = line.slice(colonIndex + 1).trim();
+                    
+                    // Remover aspas se existirem
+                    if (value.startsWith('"') && value.endsWith('"')) {
+                        value = value.slice(1, -1);
+                    }
+
+                    // Verificar se é um objeto aninhado (como image)
+                    if (i + 1 < lines.length && lines[i + 1].trim().match(/^\s+\w+:/)) {
+                        metadata[key] = {};
+                        i++;
+                        while (i < lines.length && lines[i].trim().match(/^\s+\w+:/)) {
+                            const nestedLine = lines[i].trim();
+                            const nestedColonIndex = nestedLine.indexOf(':');
+                            const nestedKey = nestedLine.slice(0, nestedColonIndex).trim();
+                            let nestedValue = nestedLine.slice(nestedColonIndex + 1).trim();
+                            
+                            // Remover aspas se existirem
+                            if (nestedValue.startsWith('"') && nestedValue.endsWith('"')) {
+                                nestedValue = nestedValue.slice(1, -1);
+                            }
+                            
+                            metadata[key][nestedKey] = nestedValue;
+                            i++;
+                        }
+                        i--; // Voltar um para compensar o incremento do loop principal
+                    } else {
+                        // Processar arrays (tags, categorias)
+                        if (value.startsWith('[') && value.endsWith(']')) {
+                            metadata[key] = value.slice(1, -1).split(',').map(item => item.trim().replace(/"/g, ''));
+                        } else {
+                            metadata[key] = value;
+                        }
+                    }
+                }
+            }
+
+            return { content, metadata };
+        }
 
         // Função para listar arquivos da pasta blog/
         async function listArticleFiles() {
@@ -527,6 +623,7 @@
                     return data.files;
                 } else {
                     // Fallback: lista estática de artigos
+                    console.log('Usando lista estática de artigos');
                     return [
                         'blog/2023-09-08-fale-comigo-canal-irc.md',
                         'blog/2023-09-09-comandos-Irssi.md',
@@ -542,6 +639,7 @@
             } catch (error) {
                 console.error('Erro ao listar arquivos:', error);
                 // Fallback: lista estática de artigos em caso de erro
+                console.log('Erro ao listar arquivos, usando lista estática');
                 return [
                     'blog/2023-09-08-fale-comigo-canal-irc.md',
                     'blog/2023-09-09-comandos-Irssi.md',
@@ -559,10 +657,17 @@
         // Função para carregar um arquivo markdown
         async function loadMarkdownFile(path) {
             try {
+                console.log(`Tentando carregar arquivo: ${path}`);
                 const response = await fetch(path);
-                if (!response.ok) throw new Error(`Erro ao carregar ${path}: ${response.status}`);
+                
+                if (!response.ok) {
+                    console.error(`Erro ao carregar ${path}: ${response.status}`);
+                    throw new Error(`Erro ao carregar ${path}: ${response.status}`);
+                }
 
                 const markdown = await response.text();
+                console.log(`Arquivo carregado com sucesso: ${path}`);
+                
                 const { content, metadata } = extractFrontMatter(markdown);
 
                 // Extrair ID do nome do arquivo
@@ -641,67 +746,6 @@
             }
         }
 
-        // Função para extrair metadados do markdown (front matter)
-        function extractFrontMatter(markdown) {
-            const frontMatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n/;
-            const match = markdown.match(frontMatterRegex);
-
-            if (!match) return { content: markdown, metadata: {} };
-
-            const frontMatter = match[1];
-            const content = markdown.slice(match[0].length);
-            const metadata = {};
-
-            // Processar o front matter linha por linha
-            const lines = frontMatter.split('\n');
-            for (let i = 0; i < lines.length; i++) {
-                const line = lines[i].trim();
-                if (!line) continue;
-
-                // Verificar se a linha contém um par chave-valor
-                const colonIndex = line.indexOf(':');
-                if (colonIndex !== -1) {
-                    const key = line.slice(0, colonIndex).trim();
-                    let value = line.slice(colonIndex + 1).trim();
-                    
-                    // Remover aspas se existirem
-                    if (value.startsWith('"') && value.endsWith('"')) {
-                        value = value.slice(1, -1);
-                    }
-
-                    // Verificar se é um objeto aninhado (como image)
-                    if (i + 1 < lines.length && lines[i + 1].trim().match(/^\s+\w+:/)) {
-                        metadata[key] = {};
-                        i++;
-                        while (i < lines.length && lines[i].trim().match(/^\s+\w+:/)) {
-                            const nestedLine = lines[i].trim();
-                            const nestedColonIndex = nestedLine.indexOf(':');
-                            const nestedKey = nestedLine.slice(0, nestedColonIndex).trim();
-                            let nestedValue = nestedLine.slice(nestedColonIndex + 1).trim();
-                            
-                            // Remover aspas se existirem
-                            if (nestedValue.startsWith('"') && nestedValue.endsWith('"')) {
-                                nestedValue = nestedValue.slice(1, -1);
-                            }
-                            
-                            metadata[key][nestedKey] = nestedValue;
-                            i++;
-                        }
-                        i--; // Voltar um para compensar o incremento do loop principal
-                    } else {
-                        // Processar arrays (tags, categorias)
-                        if (value.startsWith('[') && value.endsWith(']')) {
-                            metadata[key] = value.slice(1, -1).split(',').map(item => item.trim().replace(/"/g, ''));
-                        } else {
-                            metadata[key] = value;
-                        }
-                    }
-                }
-            }
-
-            return { content, metadata };
-        }
-
         // Função para extrair um resumo do conteúdo
         function extractExcerpt(content, maxLength = 150) {
             // Remover marcações markdown
@@ -748,17 +792,21 @@
         // Função para carregar todos os artigos
         async function loadAllArticles() {
             document.getElementById('loading').style.display = 'flex';
+            console.log('Iniciando carregamento de artigos...');
 
             try {
                 // Obter a lista de arquivos
                 const files = await listArticleFiles();
+                console.log('Arquivos encontrados:', files);
                 
                 // Carregar cada arquivo
                 const articlesPromises = files.map(file => loadMarkdownFile(file));
                 const articles = await Promise.all(articlesPromises);
+                console.log('Artigos carregados:', articles.length);
 
                 // Filtrar artigos nulos (que falharam ao carregar)
                 loadedArticles = articles.filter(article => article !== null);
+                console.log('Artigos válidos:', loadedArticles.length);
 
                 // Ordenar artigos por data (mais recentes primeiro)
                 loadedArticles.sort((a, b) => {
@@ -917,27 +965,29 @@
                             <div class="article-modal-featured-image">
                                 <img id="modal-article-image" src="" alt="">
                             </div>
-                            <div id="modal-article-content" class="article-modal-content-body"></div>
+                            <div id="modal-article-content" class="article-modal-content-body">
+                                <p>Carregando conteúdo...</p>
+                            </div>
                         </div>
                     </div>
                 `;
                 document.body.appendChild(modalElement);
-
+                
                 // Adicionar evento para fechar o modal
                 modalElement.querySelector('.modal-close-btn').addEventListener('click', () => {
                     modalElement.style.display = 'none';
-                    modalElement.classList.remove('glitch'); // Remover a classe de animação ao fechar
+                    modalElement.classList.remove('glitch');
                     // Atualizar URL
                     const urlParams = new URLSearchParams(window.location.search);
                     const category = urlParams.get('category') || 'all';
                     history.pushState({}, '', `?category=${category}`);
                 });
-
+                
                 // Fechar o modal ao clicar fora do conteúdo
                 modalElement.addEventListener('click', (e) => {
                     if (e.target === modalElement) {
                         modalElement.style.display = 'none';
-                        modalElement.classList.remove('glitch'); // Remover a classe de animação ao fechar
+                        modalElement.classList.remove('glitch');
                         // Atualizar URL
                         const urlParams = new URLSearchParams(window.location.search);
                         const category = urlParams.get('category') || 'all';
@@ -945,30 +995,64 @@
                     }
                 });
             }
-
+            
             // Preencher os detalhes do artigo no modal
             document.getElementById('modal-article-title').textContent = article.title;
             document.getElementById('modal-article-date').textContent = article.date;
             document.getElementById('modal-article-category').textContent = article.categories.join(', ');
             document.getElementById('modal-article-image').src = article.imagePath;
             document.getElementById('modal-article-image').alt = article.title;
-
-            // Renderizar o conteúdo markdown usando marked.js
-            document.getElementById('modal-article-content').innerHTML = DOMPurify.sanitize(
-                marked.parse(article.content, { renderer })
-            );
-
-            // Aplicar highlight de código após renderizar o conteúdo
-            Prism.highlightAllUnder(document.getElementById('modal-article-content'));
-
-            // Adicionar a classe de animação ao abrir o modal
-            modalElement.classList.add('glitch');
-
-            // Mostrar o modal
+            
+            // Mostrar o modal enquanto carrega o conteúdo
             modalElement.style.display = 'flex';
-
+            modalElement.classList.add('glitch');
+            
             // Atualizar URL
             history.pushState({}, '', `?article=${articleId}`);
+            
+            // Carregar o conteúdo do artigo
+            fetch(`blog/2023-09-08-${articleId}.md`)
+                .then(response => {
+                    if (!response.ok) {
+                        // Tentar sem a data no nome do arquivo
+                        return fetch(`blog/${articleId}.md`);
+                    }
+                    return response;
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        // Tentar com outras datas
+                        return fetch(`blog/2023-09-09-${articleId}.md`)
+                            .then(resp => resp.ok ? resp : fetch(`blog/2023-09-10-${articleId}.md`))
+                            .then(resp => resp.ok ? resp : fetch(`blog/2023-09-13-${articleId}.md`))
+                            .then(resp => resp.ok ? resp : fetch(`blog/2023-09-22-${articleId}.md`))
+                            .then(resp => resp.ok ? resp : fetch(`blog/2023-09-29-${articleId}.md`))
+                            .then(resp => resp.ok ? resp : fetch(`blog/2024-01-07-${articleId}.md`))
+                            .then(resp => resp.ok ? resp : fetch(`blog/2024-11-17-${articleId}.md`));
+                    }
+                    return response;
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Arquivo do artigo não encontrado');
+                    }
+                    return response.text();
+                })
+                .then(markdown => {
+                    // Extrair o conteúdo após o frontmatter
+                    const content = markdown.replace(/^---[\s\S]*?---\s*/m, '');
+                    
+                    // Renderizar o conteúdo markdown usando marked.js
+                    const renderedContent = marked.parse(content, { renderer });
+                    document.getElementById('modal-article-content').innerHTML = DOMPurify.sanitize(renderedContent);
+                    
+                    // Aplicar highlight de código após renderizar o conteúdo
+                    Prism.highlightAllUnder(document.getElementById('modal-article-content'));
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar o conteúdo do artigo:', error);
+                    document.getElementById('modal-article-content').innerHTML = '<p>Erro ao carregar o conteúdo. Por favor, tente novamente mais tarde.</p>';
+                });
         }
 
         // Função para verificar parâmetros na URL
@@ -995,8 +1079,124 @@
             }
         }
 
-        // Inicializar a página quando o DOM estiver pronto
-        document.addEventListener('DOMContentLoaded', loadAllArticles);
+        // Variáveis globais
+        let loadedArticles = [];
+        const categories = new Set(['all']);
+
+        // Função para carregar artigos diretamente
+        function loadArticlesDirectly() {
+            document.getElementById('loading').style.display = 'flex';
+            console.log('Carregando artigos diretamente...');
+            
+            // Lista estática de artigos baseada nos arquivos markdown disponíveis
+            const articles = [
+                {
+                    id: 'fale-comigo-canal-irc',
+                    title: 'Fale comigo pelo IRC via tor',
+                    date: '08 de setembro de 2023',
+                    rawDate: '2023-09-08',
+                    excerpt: 'Seja bem-vindo, este é o primeiro post do meu blog, e vou te ensinar como você pode se conectar comigo via IRC usando uma conexão criptografada via tor.',
+                    categories: ['irc'],
+                    tags: ['irc', 'portal', 'comunicacao'],
+                    imagePath: 'img/robot-irc.png'
+                },
+                {
+                    id: 'comandos-Irssi',
+                    title: 'Tutorial de comandos IRC para chat IRSSI',
+                    date: '09 de setembro de 2023',
+                    rawDate: '2023-09-09',
+                    excerpt: 'Este é um guia, um tutorial completo pros amantes do IRC, em especial, pra quem gosta de usar o IRC pelo terminal com IRSSI.',
+                    categories: ['irc'],
+                    tags: ['irc', 'portal', 'comunicacao', 'comandos'],
+                    imagePath: 'img/irc-robot.png'
+                },
+                {
+                    id: 'hexchat-irc',
+                    title: 'Como acessar o IRC modo GUI com hexchat',
+                    date: '10 de setembro de 2023',
+                    rawDate: '2023-09-10',
+                    excerpt: 'Sem dúvidas esse é o jeito mais intuitivo para acessar o IRC, se você gosta do modo GUI(Interface Gráfica), este modelo é ideal pra você!',
+                    categories: ['irc'],
+                    tags: ['irc', 'portal', 'comunicacao', 'tor', 'deepweb'],
+                    imagePath: 'img/irc-hexchat.png'
+                },
+                {
+                    id: 'applejuicy',
+                    title: 'Ataque de notificações de emparelhagem falsificadas Apple Juice',
+                    date: '13 de setembro de 2023',
+                    rawDate: '2023-09-13',
+                    excerpt: 'Na última defcon edição 31 aconteceu algo que chocou os participantes, os celulares de quem participavam do evento foram inundados de notificações de emparelhamento de dispositivos apple.',
+                    categories: ['notices'],
+                    tags: ['Apple', 'falha', 'attack', 'defcon'],
+                    imagePath: 'img/apple-juicy.png'
+                },
+                {
+                    id: 'os-hackers-no-mundo',
+                    title: 'Os hackers no mundo',
+                    date: '22 de setembro de 2023',
+                    rawDate: '2023-09-22',
+                    excerpt: 'Hackers podem ter um impacto positivo no mundo, principalmente para a nossa geração futura.',
+                    categories: ['blog', 'artigos', 'hacker'],
+                    tags: ['hackers'],
+                    imagePath: 'img/hacking-hackers.png'
+                },
+                {
+                    id: 'fbi-hackeado-por-um-troll',
+                    title: 'O FBI foi hackeado por um troll',
+                    date: '29 de setembro de 2023',
+                    rawDate: '2023-09-29',
+                    excerpt: 'Por volta das 22 horas do dia 12 de novembro de 2021, um pesquisador de segurança conhecido como Vinny Troia fundador da Night Lion & Shadowbyte recebeu uma mensagem do hacker POMPOMPURIN.',
+                    categories: ['notices'],
+                    tags: ['hackers', 'hackeado', 'fbi'],
+                    imagePath: 'img/fbi-hack.jpg'
+                },
+                {
+                    id: 'seu-celular-te-vigia',
+                    title: 'Seu celular te espiona',
+                    date: '07 de janeiro de 2024',
+                    rawDate: '2024-01-07',
+                    excerpt: 'Alguma vez na vida você já falou sobre comprar algo perto do seu smartphone e logo em seguida ao navegar pela rede social deu de cara com um anúncio a respeito do que tinha dito que iria comprar?',
+                    categories: ['notices', 'privacidade'],
+                    tags: ['espionagem', 'privacidade', 'smartphone', 'segurança', 'vigilância'],
+                    imagePath: 'img/celular-espiao.jpg'
+                },
+                {
+                    id: 'os-segredos-do-shodan',
+                    title: 'Os segredos do Shodan - Google dos hackers',
+                    date: '17 de novembro de 2024',
+                    rawDate: '2024-11-17',
+                    excerpt: 'Embora eu ame um título persuasivo, não existe segredo algum no Shodan. Entretanto, se você é um pesquisador de segurança, você vai amar esse guia que preparei para você.',
+                    categories: ['tutorial'],
+                    tags: ['Shodan', 'busca', 'attack', 'web', 'dicas', 'tutorial'],
+                    imagePath: 'img/shodan.jpeg'
+                }
+            ];
+            
+            // Armazenar artigos na variável global
+            loadedArticles = articles;
+            
+            // Adicionar categorias ao conjunto global
+            articles.forEach(article => {
+                article.categories.forEach(cat => categories.add(cat.toLowerCase()));
+            });
+            
+            // Atualizar o filtro de categorias
+            updateCategoryFilter();
+            
+            // Exibir todos os artigos
+            displayArticles(loadedArticles);
+            
+            // Verificar parâmetros na URL
+            checkUrlParams();
+            
+            // Ocultar o indicador de carregamento
+            document.getElementById('loading').style.display = 'none';
+            
+            console.log('Artigos carregados com sucesso:', loadedArticles.length);
+        }
+
+        // Substituir a chamada para loadAllArticles por loadArticlesDirectly
+        document.addEventListener('DOMContentLoaded', loadArticlesDirectly);
 
         // Lidar com navegação do histórico (botões voltar/avançar do navegador)
         window.addEventListener('popstate', function() {
