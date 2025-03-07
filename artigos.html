@@ -938,7 +938,7 @@
         }
 
         // Função para exibir um artigo específico em um modal
-        function displayArticle(articleId) {
+        async function displayArticle(articleId) {
             const article = loadedArticles.find(a => a.id === articleId);
             if (!article) {
                 alert('Artigo não encontrado!');
@@ -996,7 +996,7 @@
                 });
             }
             
-            // Preencher os detalhes do artigo no modal
+            // Preencher os detalhes básicos do artigo no modal
             document.getElementById('modal-article-title').textContent = article.title;
             document.getElementById('modal-article-date').textContent = article.date;
             document.getElementById('modal-article-category').textContent = article.categories.join(', ');
@@ -1010,49 +1010,32 @@
             // Atualizar URL
             history.pushState({}, '', `?article=${articleId}`);
             
-            // Carregar o conteúdo do artigo
-            fetch(`blog/2023-09-08-${articleId}.md`)
-                .then(response => {
-                    if (!response.ok) {
-                        // Tentar sem a data no nome do arquivo
-                        return fetch(`blog/${articleId}.md`);
-                    }
-                    return response;
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        // Tentar com outras datas
-                        return fetch(`blog/2023-09-09-${articleId}.md`)
-                            .then(resp => resp.ok ? resp : fetch(`blog/2023-09-10-${articleId}.md`))
-                            .then(resp => resp.ok ? resp : fetch(`blog/2023-09-13-${articleId}.md`))
-                            .then(resp => resp.ok ? resp : fetch(`blog/2023-09-22-${articleId}.md`))
-                            .then(resp => resp.ok ? resp : fetch(`blog/2023-09-29-${articleId}.md`))
-                            .then(resp => resp.ok ? resp : fetch(`blog/2024-01-07-${articleId}.md`))
-                            .then(resp => resp.ok ? resp : fetch(`blog/2024-11-17-${articleId}.md`));
-                    }
-                    return response;
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Arquivo do artigo não encontrado');
-                    }
-                    return response.text();
-                })
-                .then(markdown => {
-                    // Extrair o conteúdo após o frontmatter
-                    const content = markdown.replace(/^---[\s\S]*?---\s*/m, '');
-                    
-                    // Renderizar o conteúdo markdown usando marked.js
-                    const renderedContent = marked.parse(content, { renderer });
-                    document.getElementById('modal-article-content').innerHTML = DOMPurify.sanitize(renderedContent);
-                    
-                    // Aplicar highlight de código após renderizar o conteúdo
-                    Prism.highlightAllUnder(document.getElementById('modal-article-content'));
-                })
-                .catch(error => {
-                    console.error('Erro ao carregar o conteúdo do artigo:', error);
-                    document.getElementById('modal-article-content').innerHTML = '<p>Erro ao carregar o conteúdo. Por favor, tente novamente mais tarde.</p>';
-                });
+            try {
+                console.log('Carregando artigos do JSON...');
+                const response = await fetch('./articles.json');
+                if (!response.ok) {
+                    throw new Error('Falha ao carregar o arquivo JSON');
+                }
+                
+                const articles = await response.json();
+                const articleData = articles[articleId];
+                
+                if (!articleData) {
+                    throw new Error('Artigo não encontrado no JSON');
+                }
+                
+                // Renderizar o conteúdo
+                document.getElementById('modal-article-content').innerHTML = 
+                    DOMPurify.sanitize(articleData.content);
+                
+                // Aplicar highlight de código após renderizar o conteúdo
+                Prism.highlightAllUnder(document.getElementById('modal-article-content'));
+                
+            } catch (error) {
+                console.error('Erro ao carregar artigo:', error);
+                document.getElementById('modal-article-content').innerHTML = 
+                    `<p>Erro ao carregar o conteúdo: ${error.message}</p>`;
+            }
         }
 
         // Função para verificar parâmetros na URL
