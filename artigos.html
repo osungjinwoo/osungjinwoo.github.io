@@ -32,31 +32,201 @@
         </div>
 
         <div class="blog-cards">
-            {% for post in site.posts %}
+            <!-- Artigo 1 -->
             <div class="card">
+                <div class="card-image">
+                    <img src="img/default-post.jpg" alt="Imagem do artigo">
+                </div>
                 <div class="card-header">
-                    <h2>{{ post.title }}</h2>
-                    <span class="date">{{ post.date | date: "%d/%m/%Y" }}</span>
+                    <h2>Os segredos do Shodan - Google dos hackers</h2>
+                    <span class="date">17/11/2024</span>
                 </div>
                 
                 <div class="card-content">
-                    <!-- Limitando o conteúdo a um excerto -->
-                    {{ post.excerpt | strip_html | truncatewords: 30 }}
+                    Embora eu ame um título persuasivo, não existe segredo algum no Shodan. Entretanto, se você é um pesquisador de segurança, você vai amar esse guia que preparei para você...
                 </div>
                 
                 <div class="card-footer">
-                    <a href="{{ post.url }}" class="read-more">Ler mais</a>
+                    <a href="javascript:void(0)" onclick="openPostModal('blog/2024-11-17-os-segredos-do-shodan.md')" class="read-more">Ler mais</a>
                     
-                    {% if post.tags %}
                     <div class="tags">
-                        {% for tag in post.tags %}
-                        <span class="tag">{{ tag }}</span>
-                        {% endfor %}
+                        <span class="tag">Shodan</span>
+                        <span class="tag">tutorial</span>
+                        <span class="tag">web</span>
                     </div>
-                    {% endif %}
                 </div>
             </div>
-            {% endfor %}
+
+            <!-- Artigo 2 -->
+            <div class="card">
+                <div class="card-image">
+                    <img src="img/default-post.jpg" alt="Imagem do artigo">
+                </div>
+                <div class="card-header">
+                    <h2>Seu celular te espiona</h2>
+                    <span class="date">07/01/2024</span>
+                </div>
+                
+                <div class="card-content">
+                    Alguma vez na vida você já falou sobre comprar algo perto do seu smartphone e logo em seguida ao navegar pela rede social deu de cara com um anúncio a respeito do que tinha dito que iria comprar?
+                </div>
+                
+                <div class="card-footer">
+                    <a href="javascript:void(0)" onclick="openPostModal('blog/2024-01-07-seu-celular-te-vigia.md')" class="read-more">Ler mais</a>
+                    
+                    <div class="tags">
+                        <span class="tag">espionagem</span>
+                        <span class="tag">privacidade</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Artigo 3 -->
+            <div class="card">
+                <div class="card-image">
+                    <img src="img/default-post.jpg" alt="Imagem do artigo">
+                </div>
+                <div class="card-header">
+                    <h2>O FBI foi hackeado por um troll</h2>
+                    <span class="date">29/09/2023</span>
+                </div>
+                
+                <div class="card-content">
+                    Por volta das 22 horas do dia 12 de novembro de 2021, um pesquisador de segurança conhecido como Vinny Troia fundador da Night Lion & Shadowbyte recebeu uma mensagem do hacker POMPOMPURIN...
+                </div>
+                
+                <div class="card-footer">
+                    <a href="javascript:void(0)" onclick="openPostModal('blog/2023-09-29-fbi-hackeado-por-um-troll.md')" class="read-more">Ler mais</a>
+                    
+                    <div class="tags">
+                        <span class="tag">hackers</span>
+                        <span class="tag">fbi</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Artigo 4 -->
+            <div class="card">
+                <div class="card-image">
+                    <img src="img/default-post.jpg" alt="Imagem do artigo">
+                </div>
+                <div class="card-header">
+                    <h2>Os hackers no mundo</h2>
+                    <span class="date">22/09/2023</span>
+                </div>
+                
+                <div class="card-content">
+                    Meu nome é Michael Silva, mas sou conhecido como Al4xs. Trabalho como consultor de segurança cibernética ajudando a tornar empresas mais seguras...
+                </div>
+                
+                <div class="card-footer">
+                    <a href="javascript:void(0)" onclick="openPostModal('blog/2023-09-22-os-hackers-no-mundo.md')" class="read-more">Ler mais</a>
+                    
+                    <div class="tags">
+                        <span class="tag">hackers</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Artigo 5 -->
+            <div class="card">
+                <div class="card-image">
+                    <img src="img/default-post.jpg" alt="Imagem do artigo">
+                </div>
+                <div class="card-header">
+                    <h2>Ataque de notificações de emparelhagem falsificadas Apple Juice</h2>
+                    <span class="date">13/09/2023</span>
+                </div>
+                
+                <div class="card-content">
+                    Na última defcon edição 31 aconteceu algo que chocou os participantes, os celulares de quem participavam do evento foram inundados de notificações de emparelhamento...
+                </div>
+                
+                <div class="card-footer">
+                    <a href="javascript:void(0)" onclick="openPostModal('blog/2023-09-13-applejuicy.md')" class="read-more">Ler mais</a>
+                    
+                    <div class="tags">
+                        <span class="tag">Apple</span>
+                        <span class="tag">attack</span>
+                        <span class="tag">defcon</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Artigo 6 -->
+            <div class="card">
+                <div class="card-image">
+                    <img src="img/default-post.jpg" alt="Imagem do artigo">
+                </div>
+                <div class="card-header">
+                    <h2>Como acessar o IRC modo GUI com hexchat</h2>
+                    <span class="date">10/09/2023</span>
+                </div>
+                
+                <div class="card-content">
+                    Sem dúvidas esse é o jeito mais intuitivo para acessar o IRC, se você gosta do modo GUI(Interface Gráfica), este modelo é ideal pra você!
+                </div>
+                
+                <div class="card-footer">
+                    <a href="javascript:void(0)" onclick="openPostModal('blog/2023-09-10-hexchat-irc.md')" class="read-more">Ler mais</a>
+                    
+                    <div class="tags">
+                        <span class="tag">irc</span>
+                        <span class="tag">comunicacao</span>
+                        <span class="tag">tor</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Artigo 7 -->
+            <div class="card">
+                <div class="card-image">
+                    <img src="img/default-post.jpg" alt="Imagem do artigo">
+                </div>
+                <div class="card-header">
+                    <h2>Tutorial de comandos IRC para chat IRSSI</h2>
+                    <span class="date">09/09/2023</span>
+                </div>
+                
+                <div class="card-content">
+                    Este é um guia, um tutorial completo pros amantes do IRC, em especial, pra quem gosta de usar o IRC pelo terminal com IRSSI.
+                </div>
+                
+                <div class="card-footer">
+                    <a href="javascript:void(0)" onclick="openPostModal('blog/2023-09-09-comandos-Irssi.md')" class="read-more">Ler mais</a>
+                    
+                    <div class="tags">
+                        <span class="tag">irc</span>
+                        <span class="tag">comandos</span>
+                        <span class="tag">tutorial</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Artigo 8 -->
+            <div class="card">
+                <div class="card-image">
+                    <img src="img/default-post.jpg" alt="Imagem do artigo">
+                </div>
+                <div class="card-header">
+                    <h2>Fale comigo pelo IRC via tor</h2>
+                    <span class="date">08/09/2023</span>
+                </div>
+                
+                <div class="card-content">
+                    Seja bem-vindo, este é o primeiro post do meu blog, e vou te ensinar como você pode se conectar comigo via IRC usando uma conexão criptografada via tor.
+                </div>
+                
+                <div class="card-footer">
+                    <a href="javascript:void(0)" onclick="openPostModal('blog/2023-09-08-fale-comigo-canal-irc.md')" class="read-more">Ler mais</a>
+                    
+                    <div class="tags">
+                        <span class="tag">irc</span>
+                        <span class="tag">portal</span>
+                        <span class="tag">comunicacao</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -92,6 +262,172 @@
         </div>
     </footer>
 
+    <!-- Modal para exibir os posts -->
+    <div id="postModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closePostModal()">&times;</span>
+            <div id="modal-post-content">
+                <div class="loading">Carregando artigo...</div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        // Função para abrir o modal e carregar o post
+        function openPostModal(postPath) {
+            document.getElementById('postModal').style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Impede a rolagem da página de fundo
+            loadMarkdownToModal(postPath);
+        }
+
+        // Função para fechar o modal
+        function closePostModal() {
+            document.getElementById('postModal').style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restaura a rolagem da página
+        }
+
+        // Fechar o modal ao clicar fora do conteúdo
+        window.onclick = function(event) {
+            const modal = document.getElementById('postModal');
+            if (event.target == modal) {
+                closePostModal();
+            }
+        }
+
+        // Função para carregar e renderizar o arquivo Markdown no modal
+        function loadMarkdownToModal(postPath) {
+            const modalContent = document.getElementById('modal-post-content');
+            modalContent.innerHTML = '<div class="loading">Carregando artigo...</div>';
+
+            fetch(postPath)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Arquivo não encontrado');
+                    }
+                    return response.text();
+                })
+                .then(markdown => {
+                    // Extrair o front matter
+                    const frontMatterRegex = /^---\n([\s\S]*?)\n---\n/;
+                    const match = markdown.match(frontMatterRegex);
+                    
+                    let frontMatter = {};
+                    let content = markdown;
+                    
+                    if (match) {
+                        const frontMatterText = match[1];
+                        frontMatterText.split('\n').forEach(line => {
+                            const [key, ...valueParts] = line.split(':');
+                            if (key && valueParts.length) {
+                                const value = valueParts.join(':').trim();
+                                frontMatter[key.trim()] = value.replace(/^"(.*)"$/, '$1');
+                            }
+                        });
+                        
+                        // Remover o front matter do conteúdo
+                        content = markdown.replace(frontMatterRegex, '');
+                    }
+                    
+                    // Renderizar o HTML
+                    const html = `
+                        <article class="post">
+                            <header class="post-header">
+                                <h1 class="post-title">${frontMatter.title || 'Sem título'}</h1>
+                                <div class="post-meta">
+                                    <span class="post-date">${frontMatter.date || ''}</span>
+                                    ${frontMatter.categories ? `
+                                    <span class="post-categories">
+                                        Categorias: 
+                                        ${frontMatter.categories.replace(/[\[\]"]/g, '').split(',').map(cat => `<a href="#">${cat.trim()}</a>`).join(', ')}
+                                    </span>
+                                    ` : ''}
+                                </div>
+                                ${frontMatter.image ? `
+                                <div class="post-featured-image">
+                                    <img src="${frontMatter.image.replace(/path: /, '').trim()}" alt="${frontMatter.title || 'Imagem do post'}">
+                                </div>
+                                ` : ''}
+                            </header>
+                            <div class="post-content">
+                                ${marked.parse(content)}
+                            </div>
+                            ${frontMatter.tags ? `
+                            <div class="post-tags">
+                                Tags: 
+                                ${frontMatter.tags.replace(/[\[\]"]/g, '').split(',').map(tag => `<span class="tag">${tag.trim()}</span>`).join(' ')}
+                            </div>
+                            ` : ''}
+                        </article>
+                    `;
+                    
+                    modalContent.innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar o arquivo Markdown:', error);
+                    modalContent.innerHTML = `
+                        <h1>Erro ao carregar o artigo</h1>
+                        <p>${error.message}</p>
+                    `;
+                });
+        }
+
+        // Função para carregar as imagens dos posts
+        function loadPostImages() {
+            // Lista de todos os posts e seus elementos de imagem correspondentes
+            const posts = [
+                { path: 'blog/2024-11-17-os-segredos-do-shodan.md', imageElement: document.querySelector('.card:nth-child(1) .card-image img') },
+                { path: 'blog/2024-01-07-seu-celular-te-vigia.md', imageElement: document.querySelector('.card:nth-child(2) .card-image img') },
+                { path: 'blog/2023-09-29-fbi-hackeado-por-um-troll.md', imageElement: document.querySelector('.card:nth-child(3) .card-image img') },
+                { path: 'blog/2023-09-22-os-hackers-no-mundo.md', imageElement: document.querySelector('.card:nth-child(4) .card-image img') },
+                { path: 'blog/2023-09-13-applejuicy.md', imageElement: document.querySelector('.card:nth-child(5) .card-image img') },
+                { path: 'blog/2023-09-10-hexchat-irc.md', imageElement: document.querySelector('.card:nth-child(6) .card-image img') },
+                { path: 'blog/2023-09-09-comandos-Irssi.md', imageElement: document.querySelector('.card:nth-child(7) .card-image img') },
+                { path: 'blog/2023-09-08-fale-comigo-canal-irc.md', imageElement: document.querySelector('.card:nth-child(8) .card-image img') }
+            ];
+
+            // Para cada post, carregue o arquivo Markdown e extraia a imagem
+            posts.forEach(post => {
+                fetch(post.path)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Arquivo não encontrado');
+                        }
+                        return response.text();
+                    })
+                    .then(markdown => {
+                        // Extrair o front matter
+                        const frontMatterRegex = /^---\n([\s\S]*?)\n---\n/;
+                        const match = markdown.match(frontMatterRegex);
+                        
+                        if (match) {
+                            const frontMatterText = match[1];
+                            // Procurar pela linha de imagem no front matter
+                            const imageMatch = frontMatterText.match(/image:\s*(.*?)(\n|$)/);
+                            
+                            if (imageMatch && imageMatch[1]) {
+                                let imagePath = imageMatch[1].trim();
+                                
+                                // Se a imagem começar com "path:", remova isso
+                                imagePath = imagePath.replace(/^path:\s*/, '').trim();
+                                
+                                // Se a imagem não estiver vazia, atualize o src da imagem
+                                if (imagePath && imagePath !== '') {
+                                    post.imageElement.src = imagePath;
+                                    post.imageElement.alt = post.path.split('/').pop().replace('.md', '');
+                                }
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error(`Erro ao carregar imagem para ${post.path}:`, error);
+                    });
+            });
+        }
+
+        // Carregar as imagens quando a página for carregada
+        document.addEventListener('DOMContentLoaded', loadPostImages);
+    </script>
 </body>
 </html>

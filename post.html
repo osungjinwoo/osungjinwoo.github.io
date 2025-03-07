@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artigo - Blog</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Adicione a biblioteca marked.js para converter Markdown para HTML -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo"><span>&lt;/&gt;</span> Al4xs</a>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="artigos.html" class="active">Blog</a>
+                    <a href="python.html">Python</a>
+                    <a href="bash.html">Bash</a>
+                    <a href="links.html">Links</a>
+                </div>
+                <div class="auth-buttons">
+                    <a href="login.html" class="login-btn">Login</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container" style="margin-top: 100px; margin-bottom: 50px;">
+        <article class="post" id="post-content">
+            <!-- O conteúdo do post será carregado aqui via JavaScript -->
+            <div class="loading">Carregando artigo...</div>
+        </article>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="#" class="logo"><span>&lt;/&gt;</span> Al4xs</a>
+                    <p class="footer-description">Compartilhando conhecimento sobre segurança, hacking e tecnologia.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-title">Links Rápidos</h3>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="artigos.html"><i class="fas fa-chevron-right"></i> Blog</a></li>
+                        <li><a href="python.html"><i class="fas fa-chevron-right"></i> Python</a></li>
+                        <li><a href="bash.html"><i class="fas fa-chevron-right"></i> Bash</a></li>
+                        <li><a href="links.html"><i class="fas fa-chevron-right"></i> Links</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>&copy; 2024 Al4xs. Todos os direitos reservados.</p>
+                <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script>
+        // Função para obter parâmetros da URL
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        // Função para carregar e renderizar o arquivo Markdown
+        function loadMarkdown() {
+            const postPath = getUrlParameter('post');
+            if (!postPath) {
+                document.getElementById('post-content').innerHTML = '<h1>Artigo não encontrado</h1>';
+                return;
+            }
+
+            fetch(postPath)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Arquivo não encontrado');
+                    }
+                    return response.text();
+                })
+                .then(markdown => {
+                    // Extrair o front matter
+                    const frontMatterRegex = /^---\n([\s\S]*?)\n---\n/;
+                    const match = markdown.match(frontMatterRegex);
+                    
+                    let frontMatter = {};
+                    let content = markdown;
+                    
+                    if (match) {
+                        const frontMatterText = match[1];
+                        frontMatterText.split('\n').forEach(line => {
+                            const [key, ...valueParts] = line.split(':');
+                            if (key && valueParts.length) {
+                                const value = valueParts.join(':').trim();
+                                frontMatter[key.trim()] = value.replace(/^"(.*)"$/, '$1');
+                            }
+                        });
+                        
+                        // Remover o front matter do conteúdo
+                        content = markdown.replace(frontMatterRegex, '');
+                    }
+                    
+                    // Renderizar o HTML
+                    const html = `
+                        <header class="post-header">
+                            <h1 class="post-title">${frontMatter.title || 'Sem título'}</h1>
+                            <div class="post-meta">
+                                <span class="post-date">${frontMatter.date || ''}</span>
+                                ${frontMatter.categories ? `
+                                <span class="post-categories">
+                                    Categorias: 
+                                    ${frontMatter.categories.replace(/[\[\]"]/g, '').split(',').map(cat => `<a href="#">${cat.trim()}</a>`).join(', ')}
+                                </span>
+                                ` : ''}
+                            </div>
+                            ${frontMatter.image ? `
+                            <div class="post-featured-image">
+                                <img src="${frontMatter.image.replace(/path: /, '').trim()}" alt="${frontMatter.title || 'Imagem do post'}">
+                            </div>
+                            ` : ''}
+                        </header>
+                        <div class="post-content">
+                            ${marked.parse(content)}
+                        </div>
+                        ${frontMatter.tags ? `
+                        <div class="post-tags">
+                            Tags: 
+                            ${frontMatter.tags.replace(/[\[\]"]/g, '').split(',').map(tag => `<span class="tag">${tag.trim()}</span>`).join(' ')}
+                        </div>
+                        ` : ''}
+                    `;
+                    
+                    document.getElementById('post-content').innerHTML = html;
+                    
+                    // Atualizar o título da página
+                    document.title = `${frontMatter.title || 'Artigo'} - Blog`;
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar o arquivo Markdown:', error);
+                    document.getElementById('post-content').innerHTML = `
+                        <h1>Erro ao carregar o artigo</h1>
+                        <p>${error.message}</p>
+                    `;
+                });
+        }
+
+        // Carregar o Markdown quando a página for carregada
+        document.addEventListener('DOMContentLoaded', loadMarkdown);
+    </script>
+</body>
+</html> 
