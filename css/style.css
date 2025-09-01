@@ -9,6 +9,17 @@
     --text-color: #e0e0e0;
 }
 
+/* Estilo para seleção de texto */
+::selection {
+    background-color: var(--accent-color);
+    color: #000000;
+}
+
+::-moz-selection {
+    background-color: var(--accent-color);
+    color: #000000;
+}
+
 * {
     margin: 0;
     padding: 0;
