@@ -465,9 +465,24 @@
             
             for (const article of articles) {
                 try {
-                    const response = await fetch(`blog/${article.filename}`);
-                    const markdownContent = await response.text();
-                    const articleData = parseMarkdownFrontMatter(markdownContent);
+                    // Tenta carregar o arquivo Markdown
+                    let markdownContent = '';
+                    let articleData = {};
+                    
+                    try {
+                        const response = await fetch(`./blog/${article.filename}`);
+                        if (response.ok) {
+                            markdownContent = await response.text();
+                            articleData = parseMarkdownFrontMatter(markdownContent);
+                        } else {
+                            // Fallback para dados pré-definidos quando o arquivo não pode ser carregado
+                            console.warn(`Arquivo ${article.filename} não encontrado, usando dados de fallback`);
+                            articleData = getArticleFallbackData(article.id);
+                        }
+                    } catch (fetchError) {
+                        console.warn(`Erro ao carregar ${article.filename}, usando dados de fallback:`, fetchError);
+                        articleData = getArticleFallbackData(article.id);
+                    }
                     
                     const articleCard = createArticleCard({
                         ...article,
@@ -476,9 +491,39 @@
                     });
                     articlesGrid.appendChild(articleCard);
                 } catch (error) {
-                    console.error(`Erro ao carregar ${article.filename}:`, error);
+                    console.error(`Erro ao processar ${article.filename}:`, error);
                 }
             }
+        }
+        
+        // Dados de fallback para quando os arquivos Markdown não podem ser carregados
+        function getArticleFallbackData(articleId) {
+            const fallbackData = {
+                '1': {
+                    title: "Hackers no mundo",
+                    date: "2024-01-15",
+                    categories: ["Segurança", "Hacking"],
+                    tags: ["hacking", "segurança", "pentest", "cybersecurity"],
+                    excerpt: "Hackers podem ter um impacto positivo no mundo, principalmente para a nossa geração futura.",
+                    image: "https://brainsensei.com/wp-content/uploads/2022/11/Companies-Pay-to-Get-Hacked.jpg"
+                },
+                '2': {
+                    title: "Ataque de notificações de emparelhagem falsificadas Apple Juice",
+                    date: "2025-01-02",
+                    categories: ["Segurança", "Hacking"],
+                    tags: ["hacking", "mobile", "bluetooth", "ataque"],
+                    excerpt: "Ataque via bluetooth",
+                    image: "./blog/img/apple-juicy.png"
+                }
+            };
+            
+            return fallbackData[articleId] || {
+                title: 'Artigo sem título',
+                date: new Date().toISOString().split('T')[0],
+                categories: [],
+                tags: [],
+                excerpt: ''
+            };
         }
 
         // Parse front matter from markdown

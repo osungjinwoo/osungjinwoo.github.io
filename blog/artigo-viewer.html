@@ -460,26 +460,49 @@
                     throw new Error('Caminho do arquivo inválido');
                 }
                 
-                const response = await fetch(`../blog/${sanitizedPath}`, {
-                    method: 'GET',
-                    headers: {
-                        'Cache-Control': 'no-cache',
-                        'X-Requested-With': 'XMLHttpRequest'
+                // Tenta buscar o arquivo Markdown
+                let response;
+                try {
+                    response = await fetch(`../blog/${sanitizedPath}`, {
+                        method: 'GET',
+                        headers: {
+                            'Cache-Control': 'no-cache',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    });
+                    
+                    if (!response.ok) {
+                        // Se não conseguir carregar, tenta com caminho alternativo
+                        response = await fetch(`./${sanitizedPath}`, {
+                            method: 'GET',
+                            headers: {
+                                'Cache-Control': 'no-cache',
+                                'X-Requested-With': 'XMLHttpRequest'
+                            }
+                        });
                     }
-                });
-                
-                if (!response.ok) {
+                } catch (fetchError) {
+                    console.error("Erro ao buscar arquivo:", fetchError);
                     throw new Error('Artigo não encontrado');
                 }
                 
-                const markdownContent = await response.text();
+                let markdownContent;
+                let articleData;
                 
-                // Validate content before processing
-                if (!markdownContent || markdownContent.length > 500000) { // Limite de tamanho
-                    throw new Error('Conteúdo inválido');
+                if (!response.ok) {
+                    // Se não conseguir carregar o arquivo, usa dados de fallback
+                    console.warn(`Arquivo ${sanitizedPath} não encontrado, usando dados de fallback`);
+                    articleData = getArticleFallbackData(sanitizedPath);
+                } else {
+                    markdownContent = await response.text();
+                    
+                    // Validate content before processing
+                    if (!markdownContent || markdownContent.length > 500000) { // Limite de tamanho
+                        throw new Error('Conteúdo inválido');
+                    }
+                    
+                    articleData = parseMarkdownFrontMatter(markdownContent);
                 }
-                
-                const articleData = parseMarkdownFrontMatter(markdownContent);
                 
                 // Update page title with sanitization
                 document.title = `${(articleData.title || '').replace(/[<>]/g, '')} - Blog`;
@@ -556,6 +579,84 @@
             setTimeout(() => {
                 window.location.href = '../blog.html';
             }, 5000);
+        }
+        
+        // Dados de fallback para quando os arquivos Markdown não podem ser carregados
+        function getArticleFallbackData(filename) {
+            const fallbackData = {
+                'artigo1.md': {
+                    title: "Hackers no mundo",
+                    date: "2024-01-15",
+                    categories: ["Segurança", "Hacking"],
+                    tags: ["hacking", "segurança", "pentest", "cybersecurity"],
+                    excerpt: "Hackers podem ter um impacto positivo no mundo, principalmente para a nossa geração futura.",
+                    content: `
+## Hackers no mundo
+
+Hackers podem ter um impacto positivo no mundo, principalmente para a nossa geração futura.
+
+Meu nome é Michael Silva, mas sou conhecido como Al4xs. Trabalho como consultor de segurança cibernética ajudando a tornar empresas mais seguras, já atuei nas áreas mais distintas em testes de aplicativos e aplicações, infraestrutura, investigação, inteligência de ameaças e até contrainteligência. E nas horas vagas faço a mesma coisa como hobbie, gosto de hackear coisas, jogar desafios de capturar bandeiras, fazer descobertas, sou um amante de computadores. Sim, este é meu mundo.
+
+A razão pelo qual estou aqui hoje não é pelos noticiários, como:
+
+Hackers desviaram milhões, mais uma vez. Hackers invadiram empresas e pedem resgate, mais uma vez. Hacker foi preso. Hackers, hackers, hackers.
+
+Nós ainda vivemos em um mundo anti-hacker.
+
+Só que hackers podem ser herois, se eles quiserem. Veja, eu não sou futurista e nunca inventei nada para o futuro, mas posso fazer uma previsão em relação a nossa técnologia e o futuro em relação ao espaço cibernético. Embora não dê pra advinhar e ser preciso sobre o que virá porque a tecnologia está avançando e cada mais rápido.
+
+Se deixarmos nossa tecnologia apenas nas mãos do governo e de empresas que só pensam em lucrar, advinhem… eles irão fracassar!
+
+Pra ser sincero, não imagino um mundo tecnologico seguro sem hackers. E nosso futuro é tecnologico.
+
+A técnologia controla as mais diversas coisas que você pode imaginar, desde barcos de guerra, sistema de mísseis, robos exploradores de marte, frequencias de radio, carros, usinas, talvez até a torradeira da sua mãe e seu relógio de pulso.
+
+# Segurança
+
+Imagine todos os mais diversos dispositivos vulneraveis, imagine o caos. Porque eu não conheço nenhuma instituição ou entidade do governo que cuida disso, que são preparados para promover a segurança na internet, e você também não.
+
+Como você acha que vão corrigir falhas que eles nem sabem que existem?
+
+Inclusive isso me lembra uma frase de Barnaby Michael Douglas Jack, que dizia: "É preciso demonstrar uma ameaça para que possamos desencadear uma solução"
+
+Como muitos conhecem, ele foi o pesquisador que demonstrou como era possível fazer caixas cuspirem dinheiro remotamente, através da maior conferência hacker do mundo, a defcon.
+
+Infelizmente em 2013 depois de ter revelado a falha que chamou de jackpotting, ele foi encontrado morto em seu apartamento. Talvez porque alguém achou que esta falha era muito perigosa para ser exposta publicamente.
+
+Nós sabemos que mesmo com boas intenções, empresas e fornecedores não conseguirão manter a nossa segurança, nem com todos os seus esforços, e sabemos também que nem todas empresas e fornecedores são bem intencionadas.`
+                },
+                'ataque-falsificacao-blee.md': {
+                    title: "Ataque de notificações de emparelhagem falsificadas Apple Juice",
+                    date: "2025-01-02",
+                    categories: ["Segurança", "Hacking"],
+                    tags: ["hacking", "mobile", "bluetooth", "ataque"],
+                    excerpt: "Ataque via bluetooth",
+                    content: `
+# DEFCON 31
+Na última defcon edição 31 aconteceu algo que chocou os participantes, os celulares de quem participavam do evento foram inundados de notificações de emparelhamento de dispositivos apple, como: Airpods, Apple TV, Smarth Watch, etc.
+
+A tela do celular não ficava em paz, você rejeitava uma solicitação, chegava outra.
+
+Mais tarde no mastodon após membros comentarem sobre as notificações, um pesquisador conhecido como Jae Bochs respondeu a todos afirmando que tudo não passava de uma brincadeira que ele resolveu fazer no dia do evento com sua nova descoberta.
+
+# O que é esse ataque?
+
+Conhecido como \`"Apple Juice"\` este ataque consiste em explorar as requisições via bluetooth para emparelhamento entre dispositivos.
+
+O BLEE (Bluetooth Low-Energy) é uma biblioteca que se comunica com aparelhos da apple através de um popup de solicitação inicial para emparelhar dispositivos para que futuramente os IOT's se conectem ao dispositivo automaticamente.
+
+Bochs ainda disse que o experimento não foi criado para roubar dados, apenas para enviar pacotes de publicidade bluetooth que não requerem emparelhamento( E como tal não são interrompidos pela alternancia do centro de controle.) Entretanto, ainda que você desligue o bluetooth pela central de controle da apple, você receberá a inundação de popups e seu bluetooth será ligado instantaneamente.`
+                }
+            };
+            
+            return fallbackData[filename] || {
+                title: 'Artigo não encontrado',
+                date: new Date().toISOString().split('T')[0],
+                categories: [],
+                tags: [],
+                excerpt: 'Este artigo não está disponível.',
+                content: '# Artigo não encontrado\n\nO artigo solicitado não está disponível no momento.'
+            };
         }
 
         // Initialize
