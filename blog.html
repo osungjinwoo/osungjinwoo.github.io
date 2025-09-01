@@ -377,29 +377,17 @@
                 <!-- Trending Tags -->
                 <div class="sidebar-section">
                     <h3>Trending Tags</h3>
-                    <div class="tag-cloud">
-                        <a href="#" class="tag-item">comunicacao</a>
-                        <a href="#" class="tag-item">irc</a>
-                        <a href="#" class="tag-item">portal</a>
-                        <a href="#" class="tag-item">hackers</a>
-                        <a href="#" class="tag-item">Apple</a>
-                        <a href="#" class="tag-item">attack</a>
-                        <a href="#" class="tag-item">comandos</a>
-                        <a href="#" class="tag-item">deepweb</a>
-                        <a href="#" class="tag-item">defcon</a>
-                        <a href="#" class="tag-item">espionagem</a>
+                    <div class="tag-cloud" id="trendingTagsCloud">
+                        <!-- Tags serão carregadas automaticamente aqui -->
                     </div>
                 </div>
                 
                 <!-- Filters -->
                 <div class="sidebar-section">
                     <h3>Filtrar por categoria</h3>
-                    <div class="blog-filters">
+                    <div class="blog-filters" id="blogFilters">
                         <button class="filter-btn active" data-filter="all">Todos</button>
-                        <button class="filter-btn" data-filter="Segurança">Segurança</button>
-                        <button class="filter-btn" data-filter="Python">Python</button>
-                        <button class="filter-btn" data-filter="Hacking">Hacking</button>
-                        <button class="filter-btn" data-filter="Automação">Automação</button>
+                        <!-- Categorias serão carregadas automaticamente aqui -->
                     </div>
                 </div>
             </div>
@@ -702,12 +690,86 @@
                 recentPostsList.appendChild(li);
             }
         }
+        
+        // Função para carregar as trending tags automaticamente
+        function loadTrendingTags() {
+            const trendingTagsCloud = document.getElementById('trendingTagsCloud');
+            if (!trendingTagsCloud) return;
+            
+            // Coletar todas as tags dos artigos
+            const allTags = new Set();
+            articles.forEach(article => {
+                const articleData = getArticleFallbackData(article.id);
+                if (articleData.tags && Array.isArray(articleData.tags)) {
+                    articleData.tags.forEach(tag => allTags.add(tag));
+                }
+            });
+            
+            // Limpar a nuvem de tags atual
+            trendingTagsCloud.innerHTML = '';
+            
+            // Adicionar cada tag à nuvem
+            allTags.forEach(tag => {
+                const tagElement = document.createElement('a');
+                tagElement.href = '#';
+                tagElement.className = 'tag-item';
+                tagElement.textContent = tag;
+                tagElement.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    // Aqui você pode adicionar funcionalidade para filtrar por tag se desejar
+                    console.log(`Filtrando por tag: ${tag}`);
+                });
+                trendingTagsCloud.appendChild(tagElement);
+            });
+            
+            // Se não houver tags, mostrar mensagem
+            if (allTags.size === 0) {
+                const noTagsElement = document.createElement('span');
+                noTagsElement.textContent = 'Nenhuma tag disponível';
+                noTagsElement.style.color = 'var(--text-color)';
+                noTagsElement.style.fontStyle = 'italic';
+                trendingTagsCloud.appendChild(noTagsElement);
+            }
+        }
+        
+        // Função para carregar as categorias automaticamente
+        function loadCategories() {
+            const blogFilters = document.getElementById('blogFilters');
+            if (!blogFilters) return;
+            
+            // Coletar todas as categorias dos artigos
+            const allCategories = new Set();
+            articles.forEach(article => {
+                const articleData = getArticleFallbackData(article.id);
+                if (articleData.categories && Array.isArray(articleData.categories)) {
+                    articleData.categories.forEach(category => allCategories.add(category));
+                }
+            });
+            
+            // Manter o botão "Todos" e adicionar as categorias dinamicamente
+            const allButton = blogFilters.querySelector('[data-filter="all"]');
+            blogFilters.innerHTML = '';
+            blogFilters.appendChild(allButton);
+            
+            // Adicionar cada categoria como botão de filtro
+            allCategories.forEach(category => {
+                const filterBtn = document.createElement('button');
+                filterBtn.className = 'filter-btn';
+                filterBtn.setAttribute('data-filter', category);
+                filterBtn.textContent = category;
+                blogFilters.appendChild(filterBtn);
+            });
+            
+            // Reconfigurar os event listeners dos filtros
+            setupFilters();
+        }
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             loadArticles();
-            setupFilters();
+            loadCategories(); // Carrega categorias automaticamente
             loadRecentPosts();
+            loadTrendingTags(); // Carrega tags automaticamente
         });
     </script>
 </body>
