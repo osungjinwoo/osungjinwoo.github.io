@@ -369,11 +369,8 @@
                 <!-- Recent Updates -->
                 <div class="sidebar-section">
                     <h3>Atualizados recentemente</h3>
-                    <ul class="recent-posts">
-                        <li><a href="blog/artigo-viewer.html?article=artigo1.md">Hackers no mundo</a></li>
-                        <li><a href="#">Tutorial de comandos IRC para chat</a></li>
-                        <li><a href="#">Como acessar o IRC modo GUI</a></li>
-                        <li><a href="blog/artigo-viewer.html?article=ataque-falsificacao-blee.md">Ataque de notificações de emparelhagem</a></li>
+                    <ul class="recent-posts" id="recentPostsList">
+                        <!-- Posts recentes serão carregados automaticamente aqui -->
                     </ul>
                 </div>
                 
@@ -675,10 +672,42 @@
             });
         }
 
+        // Função para carregar os posts recentes na barra lateral
+        function loadRecentPosts() {
+            const recentPostsList = document.getElementById('recentPostsList');
+            if (!recentPostsList) return;
+            
+            // Ordenar artigos por data (mais recentes primeiro)
+            const sortedArticles = [...articles].sort((a, b) => {
+                const dateA = getArticleFallbackData(a.id).date;
+                const dateB = getArticleFallbackData(b.id).date;
+                return new Date(dateB) - new Date(dateA);
+            });
+            
+            // Limpar a lista atual
+            recentPostsList.innerHTML = '';
+            
+            // Adicionar cada artigo à lista
+            sortedArticles.forEach(article => {
+                const articleData = getArticleFallbackData(article.id);
+                const li = document.createElement('li');
+                li.innerHTML = `<a href="blog/artigo-viewer.html?article=${encodeURIComponent(article.filename)}">${articleData.title}</a>`;
+                recentPostsList.appendChild(li);
+            });
+            
+            // Se não houver artigos, mostrar mensagem
+            if (sortedArticles.length === 0) {
+                const li = document.createElement('li');
+                li.textContent = 'Nenhum artigo disponível';
+                recentPostsList.appendChild(li);
+            }
+        }
+
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             loadArticles();
             setupFilters();
+            loadRecentPosts();
         });
     </script>
 </body>
