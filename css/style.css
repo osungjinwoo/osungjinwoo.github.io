@@ -12,12 +12,12 @@
 /* Estilo para seleção de texto */
 ::selection {
     background-color: var(--accent-color);
-    color: #000000;
+    color: #ffffff;
 }
 
 ::-moz-selection {
     background-color: var(--accent-color);
-    color: #000000;
+    color: #ffffff;
 }
 
 * {
