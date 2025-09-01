@@ -26,7 +26,11 @@
         }
         
         body {
-            padding: 100px 20px 30px;
+            background: #000000;
+            color: var(--text-color);
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding-bottom: 30px;
         }
         
         h1 {
@@ -282,12 +286,13 @@
                 </a>
                 <div class="nav-links">
                     <a href="index.html">Home</a>
+                    <a href="blog.html">Blog</a>
                     <a href="links.html">Links</a>
                     <div class="dropdown">
                         <a href="#" class="dropdown-trigger">Cheatsheets <i class="fas fa-chevron-down"></i></a>
                         <div class="dropdown-content">
                             <a href="python.html">Python</a>
-                            <a href="bash.html">Bash</a>
+                            <a href="bash.html" class="active">Bash</a>
                         </div>
                     </div>
                 </div>
@@ -296,10 +301,13 @@
             </nav>
         </div>
     </header>
-
-    <h1>Cheatsheet Em BashScript</h1>
     
-    <div class="content-container">
+    <div class="header-transition"></div>
+
+    <div class="container" style="margin-top: 80px;">
+        <h1>Cheatsheet Em BashScript</h1>
+    
+    <div class="content-container" style="margin-top: 30px;">
         <div class="section">
             <h2 class="section-title">
                 Variáveis

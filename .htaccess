@@ -1,0 +1,43 @@
+# Impedir listagem de diretórios
+Options -Indexes
+
+# Redirecionar diretórios sem index.html para a página principal
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Redirecionar /blog/ para /blog.html
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^blog/?$ /blog.html [R=301,L]
+    
+    # Redirecionar /blog/img/ para /blog.html
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^blog/img/?$ /blog.html [R=301,L]
+    
+    # Redirecionar /css/ para a página principal
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^css/?$ / [R=301,L]
+    
+    # Redirecionar qualquer outro diretório sem index.html para a página principal
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteCond %{REQUEST_FILENAME}/index.html !-f
+    RewriteRule ^(.*)$ / [R=301,L]
+</IfModule>
+
+# Definir páginas de erro personalizadas
+ErrorDocument 403 /index.html
+ErrorDocument 404 /index.html
+
+# Proteção adicional para arquivos sensíveis
+<FilesMatch "(^\.ht|\.md|\.py|\.json|\.yml|\.yaml|\.env|\.git)">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Adicionar cabeçalhos de segurança
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self'"
+</IfModule>

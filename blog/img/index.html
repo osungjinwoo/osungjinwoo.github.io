@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecionando...</title>
+    <meta http-equiv="refresh" content="0;url=../../blog.html">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            padding: 20px;
+        }
+        h1 {
+            color: #ff3e78;
+        }
+        p {
+            margin: 20px 0;
+        }
+        a {
+            color: #ff3e78;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .loader {
+            border: 5px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top: 5px solid #ff3e78;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Acesso Restrito</h1>
+        <div class="loader"></div>
+        <p>Esta área contém recursos do blog e não é acessível diretamente.</p>
+        <p>Você está sendo redirecionado para a página do blog.</p>
+        <p>Se o redirecionamento não funcionar, <a href="../../blog.html">clique aqui</a>.</p>
+    </div>
+    <script>
+        // Redirecionar para a página principal do blog
+        window.location.href = "../../blog.html";
+    </script>
+</body>
+</html>

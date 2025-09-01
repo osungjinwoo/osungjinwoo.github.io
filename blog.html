@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Sung Jin-Woo | O Monarca das Sombras</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .blog-container {
+            margin-top: 100px;
+            padding: 40px 0;
+        }
+        
+        .blog-content-wrapper {
+            display: flex;
+            gap: 40px;
+        }
+        
+        .blog-main-content {
+            flex: 1;
+        }
+        
+        .blog-sidebar {
+            width: 320px;
+            flex-shrink: 0;
+        }
+        
+        .sidebar-section {
+            background: rgba(10, 10, 10, 0.6);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .sidebar-section h3 {
+            font-size: 1.25rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .recent-posts {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .recent-posts li {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .recent-posts li:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .recent-posts a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: block;
+            line-height: 1.4;
+        }
+        
+        .recent-posts a:hover {
+            color: var(--accent-color);
+        }
+        
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .tag-item {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .tag-item:hover {
+            background: var(--accent-color);
+            color: #000;
+            transform: translateY(-2px);
+        }
+        
+        .articles-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .article-card {
+            background: rgba(10, 10, 10, 0.6);
+            border-radius: 10px;
+            padding: 0;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(255, 62, 120, 0.2);
+            border-color: var(--accent-color);
+        }
+        
+        .article-image {
+            width: 300px;
+            height: auto;
+            min-height: 200px;
+            background: linear-gradient(135deg, var(--accent-color), #ff2d6d);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .article-image.has-image {
+            background: none;
+        }
+        
+        .article-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .article-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 62, 120, 0.8), rgba(255, 45, 109, 0.8));
+            opacity: 0.8;
+            display: none;
+        }
+        
+        .article-image .default-icon {
+            position: relative;
+            z-index: 1;
+            font-size: 3rem;
+            color: white;
+        }
+        
+        .article-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .article-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: var(--accent-color);
+        }
+        
+        .article-date {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .article-categories {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .category-tag {
+            background: rgba(255, 62, 120, 0.2);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+        
+        .article-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--light-color);
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+        
+        .article-excerpt {
+            color: var(--text-color);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        
+        .article-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+        
+        .tag {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            color: var(--text-color);
+        }
+        
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: var(--accent-color);
+            background-color: rgba(255, 62, 120, 0.1);
+            border: 1px solid var(--accent-color);
+            border-radius: 25px;
+            padding: 8px 16px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(255, 62, 120, 0.2);
+            align-self: flex-start;
+        }
+        
+        .read-more:hover {
+            background-color: var(--accent-color);
+            color: #000;
+            gap: 12px;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(255, 62, 120, 0.4);
+        }
+        
+        .blog-filters {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+        
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--accent-color);
+            color: var(--light-color);
+            border-color: var(--accent-color);
+        }
+        
+        .no-articles {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-color);
+        }
+        
+        .no-articles i {
+            font-size: 4rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+        
+        /* Responsividade */
+        @media (max-width: 992px) {
+            .blog-content-wrapper {
+                flex-direction: column;
+            }
+            
+            .blog-sidebar {
+                width: 100%;
+                order: -1;
+            }
+            
+            .blog-filters {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .article-card {
+                flex-direction: column;
+            }
+            
+            .article-image {
+                width: 100%;
+                height: 200px;
+            }
+        }
+        
+        /* Ensure content doesn't overlap with fixed header */
+        .blog-container {
+            margin-top: 100px;
+            padding: 40px 0;
+        }
+        
+        /* Improve header visibility */
+        header {
+            background: rgba(0, 0, 0, 0.95) !important;
+            backdrop-filter: blur(10px) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <span></span>
+                </a>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="blog.html" class="active">Blog</a>
+                    <a href="links.html">Links</a>
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-trigger">Cheatsheets <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="python.html">Python</a>
+                            <a href="bash.html">Bash</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="auth-buttons">
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="header-transition"></div>
+
+    <!-- Blog Content -->
+    <div class="container blog-container">
+        <div class="blog-content-wrapper">
+            <div class="blog-main-content">
+                <!-- Articles Grid -->
+                <div class="articles-grid" id="articlesGrid">
+                    <!-- Articles will be loaded here -->
+                </div>
+            </div>
+            
+            <div class="blog-sidebar">
+                <!-- Recent Updates -->
+                <div class="sidebar-section">
+                    <h3>Atualizados recentemente</h3>
+                    <ul class="recent-posts">
+                        <li><a href="blog/artigo-viewer.html?article=artigo1.md">Hackers no mundo</a></li>
+                        <li><a href="#">Tutorial de comandos IRC para chat</a></li>
+                        <li><a href="#">Como acessar o IRC modo GUI</a></li>
+                        <li><a href="blog/artigo-viewer.html?article=ataque-falsificacao-blee.md">Ataque de notificações de emparelhagem</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Trending Tags -->
+                <div class="sidebar-section">
+                    <h3>Trending Tags</h3>
+                    <div class="tag-cloud">
+                        <a href="#" class="tag-item">comunicacao</a>
+                        <a href="#" class="tag-item">irc</a>
+                        <a href="#" class="tag-item">portal</a>
+                        <a href="#" class="tag-item">hackers</a>
+                        <a href="#" class="tag-item">Apple</a>
+                        <a href="#" class="tag-item">attack</a>
+                        <a href="#" class="tag-item">comandos</a>
+                        <a href="#" class="tag-item">deepweb</a>
+                        <a href="#" class="tag-item">defcon</a>
+                        <a href="#" class="tag-item">espionagem</a>
+                    </div>
+                </div>
+                
+                <!-- Filters -->
+                <div class="sidebar-section">
+                    <h3>Filtrar por categoria</h3>
+                    <div class="blog-filters">
+                        <button class="filter-btn active" data-filter="all">Todos</button>
+                        <button class="filter-btn" data-filter="Segurança">Segurança</button>
+                        <button class="filter-btn" data-filter="Python">Python</button>
+                        <button class="filter-btn" data-filter="Hacking">Hacking</button>
+                        <button class="filter-btn" data-filter="Automação">Automação</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="index.html" class="logo">
+                        <span></span>
+                    </a>
+                    <p class="footer-description">
+                        Compartilhando conhecimento e técnicas de segurança cibernética para um mundo digital mais seguro.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-title">Contato</h3>
+                    <ul>
+                        <li><a href="mailto:contato@shadowmonarch.com"><i class="fas fa-envelope"></i> contato@shadowmonarch.com</a></li>
+                        <li><a href="tel:+5511999999999"><i class="fas fa-phone"></i> +55 (11) 99999-9999</a></li>
+                        <li><a href="https://maps.google.com/?q=São+Paulo,Brasil" target="_blank"><i class="fas fa-map-marker-alt"></i> São Paulo, Brasil</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Shadow Monarch. Todos os direitos reservados.</p>
+                <a href="#" class="back-to-top" aria-label="Voltar ao topo"><i class="fas fa-arrow-up"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Articles configuration
+        const articles = [
+            {
+                id: '1',
+                filename: 'artigo1.md',
+                image: 'https://ebookpress.wordpress.com/wp-content/uploads/2009/11/google_logo.jpg',
+                icon: 'fas fa-shield-alt'
+            },
+            {
+                id: '2',
+                filename: 'ataque-falsificacao-blee.md',
+                image: './blog/img/apple-juicy.png',
+                icon: 'fab fa-python'
+            }
+        ];
+
+        // Load and render articles
+        async function loadArticles() {
+            const articlesGrid = document.getElementById('articlesGrid');
+            
+            for (const article of articles) {
+                try {
+                    const response = await fetch(`blog/${article.filename}`);
+                    const markdownContent = await response.text();
+                    const articleData = parseMarkdownFrontMatter(markdownContent);
+                    
+                    const articleCard = createArticleCard({
+                        ...article,
+                        ...articleData,
+                        image: articleData.image || article.image // Use front matter image if available
+                    });
+                    articlesGrid.appendChild(articleCard);
+                } catch (error) {
+                    console.error(`Erro ao carregar ${article.filename}:`, error);
+                }
+            }
+        }
+
+        // Parse front matter from markdown
+        function parseMarkdownFrontMatter(content) {
+            const frontMatterMatch = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+            
+            if (!frontMatterMatch) {
+                return {
+                    title: 'Artigo sem título',
+                    date: new Date().toISOString().split('T')[0],
+                    categories: [],
+                    tags: [],
+                    excerpt: ''
+                };
+            }
+            
+            const frontMatter = frontMatterMatch[1];
+            const markdownContent = frontMatterMatch[2];
+            
+            // Parse YAML-like front matter
+            const lines = frontMatter.split('\n');
+            const data = {};
+            
+            lines.forEach(line => {
+                const colonIndex = line.indexOf(':');
+                if (colonIndex > 0) {
+                    const key = line.substring(0, colonIndex).trim();
+                    let value = line.substring(colonIndex + 1).trim();
+                    
+                    // Remove quotes
+                    if (value.startsWith('"') && value.endsWith('"')) {
+                        value = value.slice(1, -1);
+                    }
+                    
+                    // Parse arrays
+                    if (value.startsWith('[') && value.endsWith(']')) {
+                        value = value.slice(1, -1).split(',').map(item => item.trim().replace(/"/g, ''));
+                    }
+                    
+                    data[key] = value;
+                }
+            });
+            
+            // Extract excerpt from content if not provided
+            if (!data.excerpt && markdownContent) {
+                const firstParagraph = markdownContent.split('\n\n')[0];
+                data.excerpt = firstParagraph.replace(/^#+\s*/, '').substring(0, 150) + '...';
+            }
+            
+            return {
+                title: data.title || 'Artigo sem título',
+                date: data.date || new Date().toISOString().split('T')[0],
+                categories: data.categories || [],
+                tags: data.tags || [],
+                excerpt: data.excerpt || '',
+                image: data.image || null
+            };
+        }
+
+        // Create article card
+        function createArticleCard(article) {
+            const card = document.createElement('div');
+            card.className = 'article-card';
+            card.setAttribute('data-categories', article.categories.join(' '));
+            
+            const categoriesHTML = article.categories.map(cat => 
+                `<span class="category-tag">${cat}</span>`
+            ).join('');
+            
+            const tagsHTML = article.tags.map(tag => 
+                `<span class="tag">${tag}</span>`
+            ).join('');
+            
+            // Create image section
+            const imageHTML = article.image ? 
+                `<img src="${article.image}" alt="${article.title}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">` : 
+                '';
+            
+            const iconHTML = `<i class="${article.icon || 'fas fa-file-alt'} default-icon"></i>`;
+            
+            const articleUrl = `blog/artigo-viewer.html?article=${article.filename}`;
+            
+            // Tornar o card inteiro clicável
+            card.style.cursor = 'pointer';
+            card.addEventListener('click', () => {
+                window.location.href = `blog/artigo-viewer.html?article=${encodeURIComponent(article.filename)}`;
+            });
+            
+            card.innerHTML = `
+                <div class="article-image ${article.image ? 'has-image' : ''}">
+                    ${imageHTML}
+                    <div class="default-icon" style="display: ${article.image ? 'none' : 'flex'}">
+                        ${iconHTML}
+                    </div>
+                </div>
+                <div class="article-content">
+                    <div class="article-meta">
+                        <span class="article-date">
+                            <i class="far fa-calendar-alt"></i>
+                            ${formatDate(article.date)}
+                        </span>
+                        <div class="article-categories">
+                            ${categoriesHTML}
+                        </div>
+                    </div>
+                    <h3 class="article-title">${article.title}</h3>
+                    <p class="article-excerpt">${article.excerpt}</p>
+                    <div class="article-tags">
+                        ${tagsHTML}
+                    </div>
+                    <a href="blog/artigo-viewer.html?article=${encodeURIComponent(article.filename)}" class="read-more" onclick="event.stopPropagation();">
+                        Ler mais <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('pt-BR');
+        }
+
+        // Filter functionality
+        function setupFilters() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const articles = document.querySelectorAll('.article-card');
+            
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const filter = btn.getAttribute('data-filter');
+                    
+                    // Update active button
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    // Filter articles
+                    articles.forEach(article => {
+                        const categories = article.getAttribute('data-categories');
+                        if (filter === 'all' || categories.includes(filter)) {
+                            article.style.display = 'flex';
+                        } else {
+                            article.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadArticles();
+            setupFilters();
+        });
+    </script>
+</body>
+</html>

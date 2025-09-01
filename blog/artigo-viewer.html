@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carregando Artigo - Blog</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        .post-container {
+            margin-top: 80px;
+            padding: 20px 0;
+        }
+        
+        .post-header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .post-title {
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .post-meta {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+        
+        .post-date {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .post-categories {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .category-tag {
+            background: rgba(255, 62, 120, 0.2);
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            color: var(--accent-color);
+        }
+        
+        .post-excerpt {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            max-width: 700px;
+            margin: 0 auto;
+            font-style: italic;
+        }
+        
+        .post-content {
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+            color: var(--text-color);
+        }
+        
+        .post-content h1,
+        .post-content h2,
+        .post-content h3,
+        .post-content h4 {
+            color: var(--light-color);
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+        
+        .post-content h1 {
+            font-size: 2.5rem;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+        }
+        
+        .post-content h2 {
+            font-size: 2rem;
+            color: var(--accent-color);
+        }
+        
+        .post-content h3 {
+            font-size: 1.5rem;
+        }
+        
+        .post-content p {
+            margin-bottom: 20px;
+        }
+        
+        .post-content ul,
+        .post-content ol {
+            margin-bottom: 20px;
+            padding-left: 30px;
+        }
+        
+        .post-content li {
+            margin-bottom: 8px;
+        }
+        
+        .post-content code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: var(--accent-color);
+        }
+        
+        .post-content pre {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .post-content pre code {
+            background: none;
+            padding: 0;
+            color: var(--text-color);
+        }
+        
+        .post-content blockquote {
+            border-left: 4px solid var(--accent-color);
+            padding-left: 20px;
+            margin: 20px 0;
+            font-style: italic;
+            color: var(--text-color);
+        }
+        
+        .post-content strong {
+            color: var(--light-color);
+        }
+        
+        .post-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .post-tags {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+        
+        .post-tags h4 {
+            color: var(--light-color);
+            margin-bottom: 15px;
+        }
+        
+        .tags-list {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .tag {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+        
+        .back-to-blog {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--light-color);
+            background-color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 30px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(255, 62, 120, 0.3);
+            position: static;
+        }
+        
+        .back-to-blog:hover {
+            gap: 12px;
+            background-color: rgba(255, 62, 120, 0.8);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 62, 120, 0.5);
+        }
+        
+        .back-to-blog-container {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .back-to-blog {
+                margin: 0 auto 20px;
+                display: table;
+            }
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 100px 20px;
+            color: var(--text-color);
+        }
+        
+        .loading i {
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            animation: spin 2s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .error {
+            text-align: center;
+            padding: 100px 20px;
+            color: var(--accent-color);
+        }
+        
+        .error i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+        
+        /* Ensure content doesn't overlap with fixed header */
+        .post-container {
+            margin-top: 70px;
+            padding: 20px 0;
+        }
+        
+        /* Improve header visibility */
+        header {
+            background: rgba(0, 0, 0, 0.95) !important;
+            backdrop-filter: blur(10px) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="../index.html" class="logo"><span>&lt;/&gt;</span> Al4xs</a>
+                <div class="nav-links">
+                    <a href="../index.html">Home</a>
+                    <a href="../blog.html" class="active">Blog</a>
+                    <a href="../python.html">Python</a>
+                    <a href="../bash.html">Bash</a>
+                    <a href="../links.html">Links</a>
+                </div>
+                <div class="auth-buttons">
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Post Content -->
+    <div class="container post-container">
+        <div class="back-to-blog-container">
+            <a href="../blog.html" class="back-to-blog">
+                <i class="fas fa-arrow-left"></i> Voltar ao Blog
+            </a>
+        </div>
+        
+        <div id="loading" class="loading">
+            <i class="fas fa-spinner"></i>
+            <h2>Carregando artigo...</h2>
+        </div>
+        
+        <div id="error" class="error" style="display: none;">
+            <i class="fas fa-exclamation-triangle"></i>
+            <h2>Artigo não encontrado</h2>
+            <p>O artigo solicitado não foi encontrado ou ocorreu um erro ao carregá-lo.</p>
+        </div>
+        
+        <article id="post" class="post" style="display: none;">
+            <header class="post-header">
+                <h1 class="post-title" id="postTitle"></h1>
+                <div class="post-meta" id="postMeta">
+                </div>
+                <p class="post-excerpt" id="postExcerpt"></p>
+            </header>
+
+            <div class="post-content" id="postContent">
+            </div>
+
+            <div class="post-tags" id="postTags">
+            </div>
+        </article>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="#" class="logo"><span>&lt;/&gt;</span> Al4xs</a>
+                    <p class="footer-description">Compartilhando conhecimento sobre segurança, hacking e tecnologia.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-title">Links Rápidos</h3>
+                    <ul>
+                        <li><a href="../index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="../blog.html"><i class="fas fa-chevron-right"></i> Blog</a></li>
+                        <li><a href="../python.html"><i class="fas fa-chevron-right"></i> Python</a></li>
+                        <li><a href="../bash.html"><i class="fas fa-chevron-right"></i> Bash</a></li>
+                        <li><a href="../links.html"><i class="fas fa-chevron-right"></i> Links</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>&copy; 2024 Al4xs. Todos os direitos reservados.</p>
+                <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Configure marked options
+        marked.setOptions({
+            breaks: true,
+            gfm: true
+        });
+
+        // Get article filename from URL parameter with security checks
+        function getArticleFilename() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const articleParam = urlParams.get('article');
+            
+            // Security checks
+            if (!articleParam) {
+                return null;
+            }
+            
+            // Prevent directory traversal attacks
+            if (articleParam.includes('../') || articleParam.includes('./') || 
+                articleParam.includes('..\\') || articleParam.includes('.\\') ||
+                articleParam.startsWith('/') || articleParam.startsWith('\\') ||
+                !articleParam.endsWith('.md')) {
+                console.error('Tentativa de acesso inválido detectada');
+                return null;
+            }
+            
+            // Whitelist de arquivos permitidos
+            const allowedArticles = [
+                'artigo1.md',
+                'ataque-falsificacao-blee.md'
+                // Adicione aqui outros artigos permitidos
+            ];
+            
+            if (!allowedArticles.includes(articleParam)) {
+                console.error('Artigo não está na lista de permitidos');
+                return null;
+            }
+            
+            return articleParam;
+        }
+
+        // Parse front matter from markdown
+        function parseMarkdownFrontMatter(content) {
+            const frontMatterMatch = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+            
+            if (!frontMatterMatch) {
+                return {
+                    title: 'Artigo sem título',
+                    date: new Date().toISOString().split('T')[0],
+                    categories: [],
+                    tags: [],
+                    excerpt: '',
+                    content: content
+                };
+            }
+            
+            const frontMatter = frontMatterMatch[1];
+            const markdownContent = frontMatterMatch[2];
+            
+            // Parse YAML-like front matter
+            const lines = frontMatter.split('\n');
+            const data = {};
+            
+            lines.forEach(line => {
+                const colonIndex = line.indexOf(':');
+                if (colonIndex > 0) {
+                    const key = line.substring(0, colonIndex).trim();
+                    let value = line.substring(colonIndex + 1).trim();
+                    
+                    // Remove quotes
+                    if (value.startsWith('"') && value.endsWith('"')) {
+                        value = value.slice(1, -1);
+                    }
+                    
+                    // Parse arrays
+                    if (value.startsWith('[') && value.endsWith(']')) {
+                        value = value.slice(1, -1).split(',').map(item => item.trim().replace(/"/g, ''));
+                    }
+                    
+                    data[key] = value;
+                }
+            });
+            
+            return {
+                title: data.title || 'Artigo sem título',
+                date: data.date || new Date().toISOString().split('T')[0],
+                categories: data.categories || [],
+                tags: data.tags || [],
+                excerpt: data.excerpt || '',
+                content: markdownContent
+            };
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('pt-BR');
+        }
+
+        // Load and render article with additional security
+        async function loadArticle() {
+            const filename = getArticleFilename();
+            
+            if (!filename) {
+                showError('Artigo inválido ou não encontrado');
+                return;
+            }
+            
+            try {
+                // Sanitize the path and use a consistent format
+                const sanitizedPath = filename.replace(/[^\w.-]/g, '');
+                
+                // Additional security check
+                if (sanitizedPath !== filename) {
+                    throw new Error('Caminho do arquivo inválido');
+                }
+                
+                const response = await fetch(`../blog/${sanitizedPath}`, {
+                    method: 'GET',
+                    headers: {
+                        'Cache-Control': 'no-cache',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Artigo não encontrado');
+                }
+                
+                const markdownContent = await response.text();
+                
+                // Validate content before processing
+                if (!markdownContent || markdownContent.length > 500000) { // Limite de tamanho
+                    throw new Error('Conteúdo inválido');
+                }
+                
+                const articleData = parseMarkdownFrontMatter(markdownContent);
+                
+                // Update page title with sanitization
+                document.title = `${(articleData.title || '').replace(/[<>]/g, '')} - Blog`;
+                
+                // Render article
+                renderArticle(articleData);
+                
+            } catch (error) {
+                console.error('Erro ao carregar artigo:', error);
+                showError(error.message);
+            }
+        }
+
+        // Render article content
+        function renderArticle(articleData) {
+            // Hide loading
+            document.getElementById('loading').style.display = 'none';
+            
+            // Show article
+            const post = document.getElementById('post');
+            post.style.display = 'block';
+            
+            // Set title
+            document.getElementById('postTitle').textContent = articleData.title;
+            
+            // Set meta
+            const postMeta = document.getElementById('postMeta');
+            postMeta.innerHTML = `
+                <span class="post-date">
+                    <i class="far fa-calendar-alt"></i>
+                    ${formatDate(articleData.date)}
+                </span>
+                <div class="post-categories">
+                    ${articleData.categories.map(cat => `<span class="category-tag">${cat}</span>`).join('')}
+                </div>
+            `;
+            
+            // Set excerpt
+            document.getElementById('postExcerpt').textContent = articleData.excerpt;
+            
+            // Render content
+            const postContent = document.getElementById('postContent');
+            postContent.innerHTML = marked.parse(articleData.content);
+            
+            // Set tags
+            if (articleData.tags.length > 0) {
+                const postTags = document.getElementById('postTags');
+                postTags.innerHTML = `
+                    <h4>Tags:</h4>
+                    <div class="tags-list">
+                        ${articleData.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                `;
+            }
+        }
+
+        // Show error with custom message
+        function showError(message = 'Artigo não encontrado ou ocorreu um erro ao carregá-lo.') {
+            document.getElementById('loading').style.display = 'none';
+            
+            const errorElement = document.getElementById('error');
+            const errorMessageElement = errorElement.querySelector('p');
+            
+            if (errorMessageElement) {
+                errorMessageElement.textContent = message;
+            }
+            
+            errorElement.style.display = 'block';
+            
+            // Log de segurança
+            console.warn('Erro de acesso ao artigo:', message);
+            
+            // Redirecionar para o blog após 5 segundos em caso de erro
+            setTimeout(() => {
+                window.location.href = '../blog.html';
+            }, 5000);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', loadArticle);
+    </script>
+</body>
+</html>
