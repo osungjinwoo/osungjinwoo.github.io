@@ -1,1 +1,50 @@
-Olá Hacker, achou que seria fácil? =)
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://osungjinwoo.github.io/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://osungjinwoo.github.io/blog.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://osungjinwoo.github.io/links.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://osungjinwoo.github.io/python.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://osungjinwoo.github.io/bash.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+</urlset>
+
+<!-- 
+  ╔═════════════════════════════════════════════════════════════════════════════╗
+  ║                                                                             ║
+  ║  🚨 ATENÇÃO HACKER! 🚨                                                      ║
+  ║                                                                             ║
+  ║  Olá Hacker, achou que seria fácil? =)                                      ║
+  ║                                                                             ║
+  ║  Este é o território do Sung Jin-Woo, o Monarca das Sombras!                ║
+  ║  Se você está tentando me hackear, saiba que:                               ║
+  ║                                                                             ║
+  ║  • Eu sou um Pentester profissional                                         ║
+  ║  • Trabalho com Segurança Cibernética                                       ║
+  ║  • Sei me defender e cada tentativa sua é registrada com seu IP             ║
+  ║  • Minhas sombras rastreiam cada movimento suspeito ...                     ║
+  ║                                                                             ║
+  ║  "Se o sistema me usa, eu uso o sistema!" — Sung Jin-Woo                    ║
+  ║                                                                             ║
+  ║  💀 Considere-se avisado! 💀                                                ║
+  ║                                                                             ║
+  ╚═════════════════════════════════════════════════════════════════════════════╝
+-->

@@ -1,1 +1,40 @@
-Olá Hacker, nada aqui =)
+# Robots.txt - Sung Jin-Woo | O Monarca das Sombras
+# https://osungjinwoo.github.io/
+
+User-agent: *
+Allow: /
+Allow: /blog/
+Allow: /css/
+Allow: /blog/img/
+
+# Disallow sensitive areas (if any)
+Disallow: /admin
+Disabllow: /sitemap.xml
+Disallow: /private
+
+# Crawl-delay for respectful bots
+Crawl-delay: 1
+
+# ================================================================================
+# 
+  ╔═════════════════════════════════════════════════════════════════════════════╗
+  ║                                                                             ║
+  ║  🚨 ATENÇÃO HACKER! 🚨                                                      ║
+  ║                                                                             ║
+  ║  Olá Hacker, achou que seria fácil? =)                                      ║
+  ║                                                                             ║
+  ║  Este é o território do Sung Jin-Woo, o Monarca das Sombras!                ║
+  ║  Se você está tentando me hackear, saiba que:                               ║
+  ║                                                                             ║
+  ║  • Eu sou um Pentester profissional                                         ║
+  ║  • Trabalho com Segurança Cibernética                                       ║
+  ║  • Sei me defender e cada tentativa sua é registrada com seu IP             ║
+  ║  • Minhas sombras rastreiam cada movimento suspeito ...                     ║
+  ║                                                                             ║
+  ║  "Se o sistema me usa, eu uso o sistema!" — Sung Jin-Woo                    ║
+  ║                                                                             ║
+  ║  💀 Considere-se avisado! 💀                                                ║
+  ║                                                                             ║
+  ╚═════════════════════════════════════════════════════════════════════════════╝
+# 
+# ================================================================================
