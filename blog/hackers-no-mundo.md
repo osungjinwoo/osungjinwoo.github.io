@@ -3,7 +3,7 @@ title: "Hackers no mundo"
 date: "2024-01-15"
 categories: ["Segurança", "Hacking"]
 tags: ["hacking", "segurança", "pentest", "cybersecurity"]
-excerpt: ""
+excerpt: "Hackers podem ter um impacto positivo no mundo, principalmente para a nossa geração futura."
 image: "https://brainsensei.com/wp-content/uploads/2022/11/Companies-Pay-to-Get-Hacked.jpg"
 ---
 
